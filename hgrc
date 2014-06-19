@@ -1,0 +1,21 @@
+[ui]
+username = Alex Cepoi <alex.cepoi@gmail.com>
+verbose = true
+merge = internal:merge
+ignore = ~/.hgignore_global
+
+[defaults]
+log = --follow
+push = --branch . --new-branch
+
+[extensions]
+color =
+extdiff =
+graphlog =
+histedit =
+mq =
+pager =
+progress =
+purge =
+rebase =
+shelve =

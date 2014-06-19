@@ -1,0 +1,4 @@
+--nogroup
+--ignore-dir=build
+--ignore-file=match:.orig
+--ignore-file=match:.sublime-workspace

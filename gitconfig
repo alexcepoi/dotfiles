@@ -1,0 +1,14 @@
+[user]
+	name = Alex Cepoi
+	email = alex.cepoi@gmail.com
+[github]
+	user = alexcepoi
+[core]
+	pager = less -+F -+X
+	excludesfile = /Users/alex/.gitignore_global
+[push]
+	default = simple
+[branch]
+	autosetuprebase = always
+[color]
+	ui = true

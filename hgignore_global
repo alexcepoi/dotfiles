@@ -1,0 +1,17 @@
+syntax: glob
+
+# os
+.DS_Store
+
+# editor
+*~
+*.swp
+*.sublime-project
+*.sublime-workspace
+sftp-config.json
+
+# python
+*.py[co]
+*.egg-info
+build/
+dist/
