@@ -5,10 +5,12 @@
 	user = alexcepoi
 [core]
 	pager = less -+F -+X
-	excludesfile = /Users/alex/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [push]
 	default = simple
 [branch]
 	autosetuprebase = always
 [color]
 	ui = true
+[credential]
+	helper = osxkeychain
