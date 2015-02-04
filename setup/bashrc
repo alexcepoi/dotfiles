@@ -1,0 +1,2 @@
+#!/bin/bash
+[ -r /etc/bashrc.local ] && source /etc/bashrc.local

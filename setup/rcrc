@@ -1,0 +1,2 @@
+DOTFILES_DIRS="$HOME/work/dotfiles"
+EXCLUDES="setup"

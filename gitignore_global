@@ -10,6 +10,7 @@
 
 # python
 **py[co]
-/*.egg-info/
+.tox/
 /build/
 /dist/
+/*.egg-info/
