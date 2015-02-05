@@ -13,8 +13,8 @@ function install_bashrc {
     sudo -H -s "cp bashrc ~/.bashrc"
     sudo -H -s "cp profile ~/.profile"
 
-    cp bashrc ~/.bashrc
-    cp profile ~/.profile
+    cp bashrc ~/.bashrc && source ~/.bashrc
+    cp profile ~/.profile && source ~/.profile
 }
 
 function install_packages {
@@ -34,6 +34,12 @@ function install_dotvim {
 function install_dotfiles {
     cp rcrc ~/.rcrc
     rcup
+
+    # setup mpd
+    cp mpdconf ~/.mpdconf
+    mkdir -p ~/.config/mpd
+    ln -sfv /usr/homebrew/opt/mpd/*.plist ~/Library/LaunchAgents
+    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mpd.plist
 }
 
 # main

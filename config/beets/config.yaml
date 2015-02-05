@@ -1,0 +1,15 @@
+directory: ~/Dropbox/Music
+color: yes
+
+import:
+    move: yes
+
+paths:
+    default: %asciify{$artist - $title}
+    singleton: %asciify{$artist - $title}
+    comp: %asciify{$artist - $title}
+
+plugins: fetchart embedart lastgenre mbsync
+
+fetchart:
+    auto: no
