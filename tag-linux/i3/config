@@ -1,0 +1,181 @@
+# modifier is win key
+set $mod Mod4
+floating_modifier $mod
+
+# look and feel
+font pango:Monospace 8
+workspace_layout tabbed
+
+# general
+bar {
+    colors {
+        separator "#444444"
+    }
+
+    status_command python3 ~/.i3/pystatus.py
+}
+
+exec_always --no-startup-id feh --bg-fill /usr/share/backgrounds/Gwallpaper-Black-Goobuntu-default.png
+exec --no-startup-id test -f ~/.Xresources && xrdb -load ~/.Xresources
+exec --no-startup-id compton -cCGb --backend glx --vsync opengl
+exec --no-startup-id xsettingsd
+exec --no-startup-id dunst
+exec --no-startup-id mpd
+
+exec light-locker
+bindsym Control+Mod1+l exec light-locker-command -l
+
+# key bindings
+bindsym $mod+Return exec urxvt -cd "`xcwd`"
+bindsym $mod+q kill
+bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -p Go: -fn 'Monospace-8'"
+
+# change focus & move focused window
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Mod1+h focus parent; focus left
+bindsym $mod+Mod1+l focus parent; focus right
+
+bindsym $mod+Control+h focus output left
+bindsym $mod+Control+l focus output right
+bindsym $mod+Control+Shift+h move to output left; focus output left
+bindsym $mod+Control+Shift+l move to output right; focus output right
+
+bindsym $mod+grave workspace back_and_forth
+bindsym $mod+Shift+grave move container to workspace back_and_forth; workspace back_and_forth
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+Mod1+Left focus parent; focus left
+bindsym $mod+Mod1+Right focus parent; focus right
+
+bindsym $mod+Control+Left focus output left
+bindsym $mod+Control+Right focus output right
+bindsym $mod+Control+Shift+Left move workspace to output left
+bindsym $mod+Control+Shift+Right move workspace to output right
+
+# splits
+bindsym $mod+bracketleft split h
+bindsym $mod+bracketright split v
+
+# layouts
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+a focus parent
+
+# floating
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# multimedia keys
+bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-'
+bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+'
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle
+bindsym XF86AudioPlay exec ncmpcpp toggle
+
+# workspaces
+# exec xrandr --output DP-1 --auto --right-of DVI-I-1
+
+set $w1 "1: adm"
+set $w2 "2: chat"
+set $w3 "3: oncall"
+set $w4 "4: work"
+set $w5 "5"
+set $w6 "6"
+set $w7 "7: editor"
+set $w8 "8: web"
+set $w9 "9"
+
+workspace $w1 output DVI-I-1
+workspace $w2 output DVI-I-1
+workspace $w3 output DVI-I-1
+workspace $w4 output DVI-I-1
+workspace $w5 output DVI-I-1
+workspace $w6 output DVI-I-1
+workspace $w7 output DP-1
+workspace $w8 output DP-1
+workspace $w9 output DP-1
+
+bindsym $mod+1 workspace number $w1
+bindsym $mod+2 workspace number $w2
+bindsym $mod+3 workspace number $w3
+bindsym $mod+4 workspace number $w4
+bindsym $mod+5 workspace number $w5
+bindsym $mod+6 workspace number $w6
+bindsym $mod+7 workspace number $w7
+bindsym $mod+8 workspace number $w8
+bindsym $mod+9 workspace number $w9
+
+bindsym $mod+KP_1 workspace number $w1
+bindsym $mod+KP_2 workspace number $w2
+bindsym $mod+KP_3 workspace number $w3
+bindsym $mod+KP_4 workspace number $w4
+bindsym $mod+KP_5 workspace number $w5
+bindsym $mod+KP_6 workspace number $w6
+bindsym $mod+KP_7 workspace number $w7
+bindsym $mod+KP_8 workspace number $w8
+bindsym $mod+KP_9 workspace number $w9
+
+bindsym $mod+Shift+1 move container to workspace number $w1; workspace number $w1
+bindsym $mod+Shift+2 move container to workspace number $w2; workspace number $w2
+bindsym $mod+Shift+3 move container to workspace number $w3; workspace number $w3
+bindsym $mod+Shift+4 move container to workspace number $w4; workspace number $w4
+bindsym $mod+Shift+5 move container to workspace number $w5; workspace number $w5
+bindsym $mod+Shift+6 move container to workspace number $w6; workspace number $w6
+bindsym $mod+Shift+7 move container to workspace number $w7; workspace number $w7
+bindsym $mod+Shift+8 move container to workspace number $w8; workspace number $w8
+bindsym $mod+Shift+9 move container to workspace number $w9; workspace number $w9
+
+bindsym $mod+Shift+KP_1 move container to workspace number $w1; workspace number $w1
+bindsym $mod+Shift+KP_2 move container to workspace number $w2; workspace number $w2
+bindsym $mod+Shift+KP_3 move container to workspace number $w3; workspace number $w3
+bindsym $mod+Shift+KP_4 move container to workspace number $w4; workspace number $w4
+bindsym $mod+Shift+KP_5 move container to workspace number $w5; workspace number $w5
+bindsym $mod+Shift+KP_6 move container to workspace number $w6; workspace number $w6
+bindsym $mod+Shift+KP_7 move container to workspace number $w7; workspace number $w7
+bindsym $mod+Shift+KP_8 move container to workspace number $w8; workspace number $w8
+bindsym $mod+Shift+KP_9 move container to workspace number $w9; workspace number $w9
+
+assign [class="^Google-chrome$"] "8: web"
+for_window [class="^Google-chrome$"] border none
+exec google-chrome
+
+mode "resize" {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+
+    # same bindings, but for the arrow keys
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# i3 mgmt
+bindsym $mod+BackSpace reload
+bindsym $mod+Shift+BackSpace restart
+bindsym Control+Mod1+BackSpace exit

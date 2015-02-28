@@ -36,7 +36,6 @@ function install_dotfiles {
     rcup
 
     # setup mpd
-    cp mpdconf ~/.mpdconf
     mkdir -p ~/.config/mpd
     ln -sfv /usr/homebrew/opt/mpd/*.plist ~/Library/LaunchAgents
     launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mpd.plist
