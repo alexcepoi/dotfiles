@@ -17,10 +17,10 @@ bar {
 
 exec_always --no-startup-id feh --bg-fill /usr/share/backgrounds/Gwallpaper-Black-Goobuntu-default.png
 exec --no-startup-id test -f ~/.Xresources && xrdb -load ~/.Xresources
-exec --no-startup-id compton -cCGb --backend glx --vsync opengl
+exec --no-startup-id compton -cCGb --backend glx --vsync opengl --xinerama-shadow-crop
 exec --no-startup-id xsettingsd
 exec --no-startup-id dunst
-exec --no-startup-id mpd
+exec --no-startup-id mpd --no-daemon
 
 exec light-locker
 bindsym Control+Mod1+l exec light-locker-command -l
@@ -153,8 +153,9 @@ bindsym $mod+Shift+KP_7 move container to workspace number $w7; workspace number
 bindsym $mod+Shift+KP_8 move container to workspace number $w8; workspace number $w8
 bindsym $mod+Shift+KP_9 move container to workspace number $w9; workspace number $w9
 
+assign [class="^Gvim$"] "7: editor"
 assign [class="^Google-chrome$"] "8: web"
-for_window [class="^Google-chrome$"] border none
+# for_window [class="^Google-chrome$"] border none
 exec google-chrome
 
 mode "resize" {
