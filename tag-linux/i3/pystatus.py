@@ -35,11 +35,11 @@ if __name__ == '__main__':
     # Register modules
     status = i3pystatus.Status(standalone=True)
 
-    status.register('clock', format=('(%H:%M %Z)', 'America/Los_Angeles'))
+    status.register('clock', format=('%-d %b %H:%M %Z', 'America/Los_Angeles'))
     status.register('clock', format='%a %-d %b %H:%M', color=COLORS['blue'])
     status.register('load', format='{avg1} {avg5} {avg15}', critical_limit=CPU_COUNT)
     status.register(Loas)
-    status.register('weather', location_code='UKXX0085', colorize=True)
+    # status.register('weather', location_code='UKXX0085', colorize=True)
 
     status.register('pulseaudio',
                     format='♪ {volume}',
