@@ -1,20 +1,33 @@
 #!/bin/bash
 [ -r /etc/bashrc.local ] && source /etc/bashrc.local
 
-# local helpers
+# Development
+export HH_CONFIG=hicolor,rawhistory
 alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
 
-# remote helpers
-gssh() {
+# Google remote helpers
+export G_WORKSTATION='janus.lon.corp.google.com'
+
+gauth() {
     if ! kinit -R 2> /dev/null ; then
         kinit
     fi
-    ssh $@
 }
 
-alias g='gssh janus -t'
+gssh() {
+    gauth && ssh $G_WORKSTATION -t $@
+}
 
-gtmux() {
-    SESSION=${1:-`hostname -s`}
-    g "tmx -CC $SESSION"
+gmosh() {
+    gauth && mosh --ssh='ssh -o GSSAPITrustDns=no' -- $G_WORKSTATION $@
+}
+
+g() {
+    SESSION=${1:-'chat'}
+    gssh "bin/tx $SESSION"
+}
+
+gm() {
+    SESSION=${1:-'chat'}
+    gmosh "bin/tx $SESSION"
 }

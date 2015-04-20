@@ -33,7 +33,7 @@ function install_dotvim {
 
 function install_dotfiles {
     cp rcrc ~/.rcrc
-    rcup
+    rcup -t mac
 
     # setup mpd
     mkdir -p ~/.config/mpd

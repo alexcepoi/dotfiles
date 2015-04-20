@@ -4,6 +4,7 @@ cmake
 coreutils
 git
 grc
+hstr
 htop-osx
 jq
 jsmin
