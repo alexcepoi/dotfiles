@@ -100,10 +100,10 @@ set $w3 "3: oncall"
 set $w4 "4: work"
 set $w5 "5"
 set $w6 "6"
-set $w7 "7: editor"
+set $w7 "7: code"
 set $w8 "8: web"
 set $w9 "9"
-set $w0 "10"
+set $w0 "10: me"
 
 workspace $w1 output DVI-I-1
 workspace $w2 output DVI-I-1
@@ -160,7 +160,7 @@ bindsym $mod+Shift+KP_8 move container to workspace number $w8; workspace number
 bindsym $mod+Shift+KP_9 move container to workspace number $w9; workspace number $w9
 bindsym $mod+Shift+KP_0 move container to workspace number $w0; workspace number $w0
 
-assign [class="^Gvim$"] "7: editor"
+assign [class="^Gvim$"] "7: code"
 assign [class="^Google-chrome$"] "8: web"
 for_window [title="Hangouts"] move container to workspace number 8
 for_window [window_role="pop-up"] floating enabled
