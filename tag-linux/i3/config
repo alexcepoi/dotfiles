@@ -26,7 +26,7 @@ exec light-locker
 bindsym Control+Mod1+l exec light-locker-command -l
 
 # key bindings
-bindsym $mod+Return exec urxvt -e bash -c "bin/tx `tmux ls -F '#S' | dmenu -i -p tmux: -fn 'Monospace-8'`"
+bindsym $mod+Return exec urxvt -sl 0 -e bash -c "bin/tx `tmux ls -F '#S' | dmenu -i -p tmux: -fn 'Monospace-8'`"
 bindsym $mod+Shift+Return exec urxvt -cd "`xcwd`"
 bindsym $mod+q kill
 bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -p Go: -fn 'Monospace-8'"
