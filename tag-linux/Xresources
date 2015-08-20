@@ -83,3 +83,4 @@ urxvt.keysym.M-v: perl:clipboard:paste
 ! zooming on +/-
 urxvt.keysym.C-plus: perl:font-size:increase
 urxvt.keysym.C-minus: perl:font-size:decrease
+urxvt.keysym.C-0: perl:font-size:reset

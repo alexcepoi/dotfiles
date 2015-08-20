@@ -26,10 +26,11 @@ exec light-locker
 bindsym Control+Mod1+l exec light-locker-command -l
 
 # key bindings
-bindsym $mod+Return exec urxvt -sl 0 -e bash -c "bin/tx `tmux ls -F '#S' | dmenu -i -p tmux: -fn 'Monospace-8'`"
+bindsym $mod+Return exec urxvt -sl 0 -e zsh -c "tx `tmux ls -F '#S' | dmenu -i -p tmux: -fn 'Monospace-8'`"
 bindsym $mod+Shift+Return exec urxvt -cd "`xcwd`"
 bindsym $mod+q kill
 bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -p Go: -fn 'Monospace-8'"
+bindsym $mod+b exec google-chrome
 
 # change focus & move focused window
 bindsym $mod+h focus left
@@ -161,7 +162,7 @@ bindsym $mod+Shift+KP_9 move container to workspace number $w9; workspace number
 bindsym $mod+Shift+KP_0 move container to workspace number $w0; workspace number $w0
 
 assign [class="^Gvim$"] "7: code"
-assign [class="^Google-chrome$"] "8: web"
+# assign [class="^Google-chrome$"] "8: web"
 for_window [title="Hangouts"] move container to workspace number 8
 for_window [window_role="pop-up"] floating enabled
 exec google-chrome

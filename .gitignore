@@ -1,0 +1,5 @@
+# zsh cache files
+zsh/autoload/local/
+zsh/cache/
+zsh/.zcompdump
+zsh/.zcompdumps/
