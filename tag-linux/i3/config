@@ -15,7 +15,7 @@ bar {
     status_command python3 ~/.i3/pystatus.py
 }
 
-exec_always --no-startup-id feh --bg-fill /usr/share/backgrounds/Gwallpaper-Black-Goobuntu-default.png
+exec_always --no-startup-id hsetroot -tile ~/.i3/wallpaper.png
 exec --no-startup-id test -f ~/.Xresources && xrdb -load ~/.Xresources
 exec --no-startup-id compton -cCGb --backend glx --vsync opengl --xinerama-shadow-crop
 exec --no-startup-id xsettingsd
@@ -28,9 +28,36 @@ bindsym Control+Mod1+l exec light-locker-command -l
 # key bindings
 bindsym $mod+Return exec urxvt -sl 0 -e zsh -c "tx `tmux ls -F '#S' | dmenu -i -p tmux: -fn 'Monospace-8'`"
 bindsym $mod+Shift+Return exec urxvt -cd "`xcwd`"
+bindsym $mod+space exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -p Go: -fn 'Monospace-8'"
 bindsym $mod+q kill
-bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -p Go: -fn 'Monospace-8'"
-bindsym $mod+b exec google-chrome
+bindsym $mod+c exec google-chrome
+bindsym $mod+grave workspace back_and_forth
+bindsym $mod+Tab workspace next_on_output
+
+# splits
+bindsym $mod+bracketleft split h
+bindsym $mod+bracketright split v
+
+# layouts
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+a focus parent
+
+# floating
+bindsym $mod+Shift+g floating toggle
+bindsym $mod+g focus mode_toggle
+
+# multimedia keys
+bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-'
+bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+'
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle
+bindsym XF86AudioPlay exec ncmpcpp toggle
+
+# i3 mgmt
+bindsym Control+$mod+BackSpace restart
+bindsym Control+Mod1+BackSpace exit
 
 # change focus & move focused window
 bindsym $mod+h focus left
@@ -50,72 +77,36 @@ bindsym $mod+Control+l focus output right
 bindsym $mod+Control+Shift+h move to output left; focus output left
 bindsym $mod+Control+Shift+l move to output right; focus output right
 
-bindsym $mod+grave workspace back_and_forth
-bindsym $mod+Shift+grave move container to workspace back_and_forth; workspace back_and_forth
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-
-bindsym $mod+Mod1+Left focus parent; focus left
-bindsym $mod+Mod1+Right focus parent; focus right
-
-bindsym $mod+Control+Left focus output left
-bindsym $mod+Control+Right focus output right
-bindsym $mod+Control+Shift+Left move workspace to output left
-bindsym $mod+Control+Shift+Right move workspace to output right
-
-# splits
-bindsym $mod+bracketleft split h
-bindsym $mod+bracketright split v
-
-# layouts
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-bindsym $mod+f fullscreen
-bindsym $mod+a focus parent
-
-# floating
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-
-# multimedia keys
-bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-'
-bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+'
-bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle
-bindsym XF86AudioPlay exec ncmpcpp toggle
-
-# workspaces
-# exec xrandr --output DP-1 --auto --right-of DVI-I-1
+# screens & workspaces
+set $aux_screen DVI-D-0
+set $main_screen DVI-I-1
+set $side_screen DP-1
 
 set $w1 "1: adm"
-set $w2 "2: chat"
-set $w3 "3: oncall"
-set $w4 "4: work"
+set $w2 "2: oncall"
+set $w3 "3: work"
+set $w4 "4"
 set $w5 "5"
-set $w6 "6"
-set $w7 "7: code"
-set $w8 "8: web"
-set $w9 "9"
-set $w0 "10: me"
+set $w6 "6: code"
+set $w7 "7"
+set $w8 "8"
+set $w9 "9: work"
+set $w0 "10: personal"
 
-workspace $w1 output DVI-I-1
-workspace $w2 output DVI-I-1
-workspace $w3 output DVI-I-1
-workspace $w4 output DVI-I-1
-workspace $w5 output DVI-I-1
-workspace $w6 output DVI-I-1
-workspace $w7 output DP-1
-workspace $w8 output DP-1
-workspace $w9 output DP-1
-workspace $w0 output DP-1
+assign [class="^Gvim$"] $w6
+for_window [title="Hangouts"] move container to workspace number $w9
+for_window [window_role="pop-up"] floating enabled
+
+workspace $w1 output $aux_screen
+workspace $w2 output $aux_screen
+workspace $w3 output $aux_screen
+workspace $w4 output $aux_screen
+workspace $w5 output $aux_screen
+workspace $w6 output $main_screen
+workspace $w7 output $main_screen
+workspace $w8 output $main_screen
+workspace $w9 output $side_screen
+workspace $w0 output $side_screen
 
 bindsym $mod+1 workspace number $w1
 bindsym $mod+2 workspace number $w2
@@ -128,17 +119,6 @@ bindsym $mod+8 workspace number $w8
 bindsym $mod+9 workspace number $w9
 bindsym $mod+0 workspace number $w0
 
-bindsym $mod+KP_1 workspace number $w1
-bindsym $mod+KP_2 workspace number $w2
-bindsym $mod+KP_3 workspace number $w3
-bindsym $mod+KP_4 workspace number $w4
-bindsym $mod+KP_5 workspace number $w5
-bindsym $mod+KP_6 workspace number $w6
-bindsym $mod+KP_7 workspace number $w7
-bindsym $mod+KP_8 workspace number $w8
-bindsym $mod+KP_9 workspace number $w9
-bindsym $mod+KP_0 workspace number $w0
-
 bindsym $mod+Shift+1 move container to workspace number $w1; workspace number $w1
 bindsym $mod+Shift+2 move container to workspace number $w2; workspace number $w2
 bindsym $mod+Shift+3 move container to workspace number $w3; workspace number $w3
@@ -150,42 +130,19 @@ bindsym $mod+Shift+8 move container to workspace number $w8; workspace number $w
 bindsym $mod+Shift+9 move container to workspace number $w9; workspace number $w9
 bindsym $mod+Shift+0 move container to workspace number $w0; workspace number $w0
 
-bindsym $mod+Shift+KP_1 move container to workspace number $w1; workspace number $w1
-bindsym $mod+Shift+KP_2 move container to workspace number $w2; workspace number $w2
-bindsym $mod+Shift+KP_3 move container to workspace number $w3; workspace number $w3
-bindsym $mod+Shift+KP_4 move container to workspace number $w4; workspace number $w4
-bindsym $mod+Shift+KP_5 move container to workspace number $w5; workspace number $w5
-bindsym $mod+Shift+KP_6 move container to workspace number $w6; workspace number $w6
-bindsym $mod+Shift+KP_7 move container to workspace number $w7; workspace number $w7
-bindsym $mod+Shift+KP_8 move container to workspace number $w8; workspace number $w8
-bindsym $mod+Shift+KP_9 move container to workspace number $w9; workspace number $w9
-bindsym $mod+Shift+KP_0 move container to workspace number $w0; workspace number $w0
-
-assign [class="^Gvim$"] "7: code"
-# assign [class="^Google-chrome$"] "8: web"
-for_window [title="Hangouts"] move container to workspace number 8
-for_window [window_role="pop-up"] floating enabled
-exec google-chrome
-
 mode "resize" {
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
+    bindsym h resize grow left 5 px or 5 ppt
+    bindsym j resize grow down 5 px or 5 ppt
+    bindsym k resize grow up 5 px or 5 ppt
+    bindsym l resize grow right 5 px or 5 ppt
 
-    # same bindings, but for the arrow keys
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym Shift+h resize shrink left 5 px or 5 ppt
+    bindsym Shift+j resize shrink down 5 px or 5 ppt
+    bindsym Shift+k resize shrink up 5 px or 5 ppt
+    bindsym Shift+l resize shrink right 5 px or 5 ppt
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
-# i3 mgmt
-bindsym $mod+BackSpace reload
-bindsym $mod+Shift+BackSpace restart
-bindsym Control+Mod1+BackSpace exit
