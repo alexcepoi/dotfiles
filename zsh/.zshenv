@@ -20,6 +20,7 @@ TIMEFMT="$fg[yellow]Time: %E real %U user %S sys (%P cpu %MM ram)$reset_color"
 tx() {
     if [ $# -eq 0 ]; then
         >&2 echo "Usage: ${0##*/} [tmux-args] session-name"
+        tmux ls
         return 1
     fi
     local name=${@:$#}

@@ -1,33 +1,4 @@
 #!/bin/bash
 [ -r /etc/bashrc.local ] && source /etc/bashrc.local
 
-# Development
 export HH_CONFIG=hicolor,rawhistory
-alias gvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
-
-# Google remote helpers
-export G_WORKSTATION='janus.lon.corp.google.com'
-
-gauth() {
-    if ! kinit -R 2> /dev/null ; then
-        kinit
-    fi
-}
-
-gssh() {
-    gauth && ssh $G_WORKSTATION -t $@
-}
-
-gmosh() {
-    gauth && mosh --ssh='ssh -o GSSAPITrustDns=no' -- $G_WORKSTATION $@
-}
-
-g() {
-    SESSION=${1:-'chat'}
-    gssh "bin/tx $SESSION"
-}
-
-gm() {
-    SESSION=${1:-'chat'}
-    gmosh "bin/tx $SESSION"
-}

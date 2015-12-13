@@ -2,7 +2,7 @@
 function install_homebrew {
     trap "{ rm -f brew.rb; }" EXIT
     curl -L "https://raw.githubusercontent.com/Homebrew/install/master/install" > brew.rb
-    sed -i "" "s;HOMEBREW_PREFIX = .*;HOMEBREW_PREFIX = '/usr/homebrew';" brew.rb
+    sed -i "" "s;HOMEBREW_PREFIX = .*;HOMEBREW_PREFIX = '/usr/local/homebrew';" brew.rb
     ruby brew.rb
 }
 
@@ -37,7 +37,7 @@ function install_dotfiles {
 
     # setup mpd
     mkdir -p ~/.config/mpd
-    ln -sfv /usr/homebrew/opt/mpd/*.plist ~/Library/LaunchAgents
+    ln -sfv /usr/local/homebrew/opt/mpd/*.plist ~/Library/LaunchAgents
     launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mpd.plist
 }
 
