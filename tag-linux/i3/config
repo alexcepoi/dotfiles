@@ -86,25 +86,25 @@ set $w1 "1: adm"
 set $w2 "2: oncall"
 set $w3 "3: work"
 set $w4 "4"
-set $w5 "5"
-set $w6 "6: code"
+set $w5 "5: code"
+set $w6 "6: web"
 set $w7 "7"
-set $w8 "8"
+set $w8 "8: chat"
 set $w9 "9: work"
-set $w0 "10: personal"
+set $w0 "10: play"
 
-assign [class="^Gvim$"] $w6
-for_window [title="Hangouts"] move container to workspace number $w9
+assign [class="^Gvim$"] $w5
+for_window [title="Hangouts"] move container to workspace number $w8
 for_window [window_role="pop-up"] floating enabled
 
 workspace $w1 output $aux_screen
 workspace $w2 output $aux_screen
 workspace $w3 output $aux_screen
 workspace $w4 output $aux_screen
-workspace $w5 output $aux_screen
+workspace $w5 output $main_screen
 workspace $w6 output $main_screen
 workspace $w7 output $main_screen
-workspace $w8 output $main_screen
+workspace $w8 output $side_screen
 workspace $w9 output $side_screen
 workspace $w0 output $side_screen
 
