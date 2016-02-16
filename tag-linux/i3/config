@@ -7,12 +7,12 @@ font pango:Monospace 8
 workspace_layout tabbed
 
 # general
+set $status_cmd "python3 $HOME/.i3/pystatus.py"
 bar {
     colors {
         separator "#444444"
     }
-
-    status_command python3 ~/.i3/pystatus.py
+    status_command $status_cmd
 }
 
 exec_always --no-startup-id hsetroot -tile ~/.i3/wallpaper.png
@@ -22,8 +22,8 @@ exec --no-startup-id xsettingsd
 exec --no-startup-id dunst
 exec --no-startup-id mpd --no-daemon
 
-exec light-locker
-bindsym Control+Mod1+l exec light-locker-command -l
+exec --no-startup-id xautolock -time 5 -locker "ncmpcpp pause && i3lock -e -d -I 10 -i ~/.i3/wallpaper.png -t"
+bindsym Control+Mod1+l exec xautolock -locknow
 
 # key bindings
 bindsym $mod+Return exec urxvt -sl 0 -e zsh -c "tx `tmux ls -F '#S' | dmenu -i -p tmux: -fn 'Monospace-8'`"
@@ -50,10 +50,12 @@ bindsym $mod+Shift+g floating toggle
 bindsym $mod+g focus mode_toggle
 
 # multimedia keys
-bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-'
-bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+'
-bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle
+bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-' && pkill -USR1 -f $status_cmd
+bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+' && pkill -USR1 -f $status_cmd
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -USR1 -f $status_cmd
 bindsym XF86AudioPlay exec ncmpcpp toggle
+bindsym XF86AudioNext exec ncmpcpp next
+bindsym XF86AudioPrev exec ncmpcpp prev
 
 # i3 mgmt
 bindsym Control+$mod+BackSpace restart

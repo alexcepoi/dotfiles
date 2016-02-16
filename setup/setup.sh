@@ -34,11 +34,6 @@ function install_dotvim {
 function install_dotfiles {
     cp rcrc ~/.rcrc
     rcup -t mac
-
-    # setup mpd
-    mkdir -p ~/.config/mpd
-    ln -sfv /usr/local/homebrew/opt/mpd/*.plist ~/Library/LaunchAgents
-    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mpd.plist
 }
 
 # main

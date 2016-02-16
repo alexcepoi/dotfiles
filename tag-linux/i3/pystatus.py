@@ -6,7 +6,6 @@ import subprocess
 import i3pystatus
 
 
-# Constants
 CPU_COUNT = multiprocessing.cpu_count()
 COLORS = {
     'red': '#ef2929',
@@ -15,39 +14,36 @@ COLORS = {
 }
 
 
-# Custom modules
 class Loas(i3pystatus.IntervalModule):
-    interval = 10
-    color = COLORS['green']
-    warn_color = COLORS['red']
+  """Periodically retrieves LOAS status."""
 
-    def run(self):
-        status = subprocess.call(['/usr/bin/prodcertstatus', '-q'])
-        color = self.warn_color if status else self.color
+  interval = 10
+  color = COLORS['green']
+  warn_color = COLORS['red']
 
-        self.output = {
-            'full_text': 'LOAS',
-            'color': color,
-        }
+  def run(self):
+    status = subprocess.call(['/usr/bin/prodcertstatus', '-q'])
+    color = self.warn_color if status else self.color
+
+    self.output = {
+        'full_text': 'LOAS',
+        'color': color,
+    }
 
 
 if __name__ == '__main__':
-    # Register modules
-    status = i3pystatus.Status(standalone=True)
-
-    status.register('clock', format=('%-d %b %H:%M %Z', 'America/Los_Angeles'))
-    status.register('clock', format='%a %-d %b %H:%M', color=COLORS['blue'])
-    status.register('load', format='{avg1} {avg5} {avg15}', critical_limit=CPU_COUNT)
-    status.register(Loas)
-    # status.register('weather', location_code='UKXX0085', colorize=True)
-
-    status.register('pulseaudio',
-                    format='♪ {volume}',
-                    format_muted='{volume}',
-                    color_muted='#ffff00',
-                    color_unmuted='#ff0000',
-                    multi_colors=True)
-
-    # status.register('keyboard_locks', format='{caps}', color=COLORS['red'])
-
-    status.run()
+  status = i3pystatus.Status(standalone=True)
+  status.register('clock', format=('%-d %b %H:%M %Z', 'America/Los_Angeles'))
+  status.register('clock', format='%a %-d %b %H:%M', color=COLORS['blue'])
+  status.register('load',
+                  format='{avg1} {avg5} {avg15}',
+                  critical_limit=CPU_COUNT)
+  status.register(Loas)
+  # status.register('weather', location_code='UKXX0085', colorize=True)
+  status.register('pulseaudio',
+                  format='♪ {volume}',
+                  format_muted='{volume}',
+                  color_muted='#ffff00',
+                  color_unmuted='#ff0000',
+                  multi_colors=True)
+  status.run()

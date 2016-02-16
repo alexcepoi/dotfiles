@@ -1,14 +1,22 @@
 [user]
-	name = Alex Cepoi
-	email = alex.cepoi@gmail.com
+    name = Alex Cepoi
+    email = alex.cepoi@gmail.com
 [github]
-	user = alexcepoi
+    user = alexcepoi
 [core]
-	pager = less -+F -+X -c
-	excludesfile = ~/.gitignore_global
+    pager = less -+F -+X -c
+    excludesfile = ~/.gitignore_global
 [push]
-	default = simple
+    default = simple
 [branch]
-	autosetuprebase = always
+    autosetuprebase = always
 [color]
-	ui = true
+    ui = true
+[alias]
+    alias = config --get-regexp ^alias.
+    amend = commit --amend --reuse-message=HEAD --reset-author
+    stat = diff --stat
+[pager]
+    stat = false
+[include]
+    path = .gitconfig.local

@@ -4,9 +4,6 @@
 # editor
 **~
 **swp
-/*.sublime-project
-/*.sublime-workspace
-/sftp-config.json
 
 # python
 **py[co]
