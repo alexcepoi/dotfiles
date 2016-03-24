@@ -84,6 +84,10 @@ set $aux_screen DVI-D-0
 set $main_screen DVI-I-1
 set $side_screen DP-1
 
+bindsym $mod+u focus output $aux_screen
+bindsym $mod+i focus output $main_screen
+bindsym $mod+o focus output $side_screen
+
 set $w1 "1: adm"
 set $w2 "2: oncall"
 set $w3 "3: work"
@@ -143,8 +147,8 @@ mode "resize" {
     bindsym Shift+k resize shrink up 5 px or 5 ppt
     bindsym Shift+l resize shrink right 5 px or 5 ppt
 
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
+    # back to normal
     bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 bindsym $mod+r mode "resize"
