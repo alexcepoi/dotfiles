@@ -1,2 +1,3 @@
-DOTFILES_DIRS="$HOME/work/dotfiles"
+DOTFILES_DIRS="$HOME/work/dotfiles $HOME/work/gdotfiles"
+SYMLINK_DIRS="zsh"
 EXCLUDES="setup"

@@ -18,5 +18,7 @@
     stat = diff --stat
 [pager]
     stat = false
+[google]
+    uplink = true
 [include]
     path = .gitconfig.local

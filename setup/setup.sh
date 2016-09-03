@@ -18,6 +18,7 @@ function install_bashrc {
 }
 
 function install_packages {
+    brew install vim --override-system-vi
     brew tap thoughtbot/formulae
     brew install `tr '\n' ' ' < pkg_brew`
 }
