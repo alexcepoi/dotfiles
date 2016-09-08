@@ -4,6 +4,7 @@ import multiprocessing
 import subprocess
 
 import i3pystatus
+from i3pystatus.weather import weathercom
 
 
 CPU_COUNT = multiprocessing.cpu_count()
@@ -39,11 +40,16 @@ if __name__ == '__main__':
                   format='{avg1} {avg5} {avg15}',
                   critical_limit=CPU_COUNT)
   status.register(Loas)
-  # status.register('weather', location_code='UKXX0085', colorize=True)
+  status.register('weather',
+                  backend=weathercom.Weathercom(location_code='UKXX0085'),
+                  colorize=True)
   status.register('pulseaudio',
-                  format='♪ {volume}',
-                  format_muted='{volume}',
+                  format='♪ {volume_bar}',
+                  format_muted='  {volume_bar}',
                   color_muted='#ffff00',
                   color_unmuted='#ff0000',
                   multi_colors=True)
+  status.register('now_playing',
+                  format="{artist} - {title} {status}",
+                  hide_no_player=True)
   status.run()

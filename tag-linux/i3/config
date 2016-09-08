@@ -1,3 +1,10 @@
+# variables
+set $status_cmd python3 $HOME/.i3/pystatus.py
+set $spotify_cmd dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2
+set $lock_notify_cmd notify-send -u low --app-name=xautolock 'Sleeping ...zZzZzZ' 'Press any key to abort...'
+set $lock_cmd i3lock -e -I 10 -i ~/.i3/wallpaper.png -t
+set $update_cmd pkill -USR1 -f $status_cmd
+
 # modifier is win key
 set $mod Mod4
 floating_modifier $mod
@@ -7,12 +14,11 @@ font pango:Monospace 8
 workspace_layout tabbed
 
 # general
-set $status_cmd "python3 $HOME/.i3/pystatus.py"
 bar {
     colors {
         separator "#444444"
     }
-    status_command $status_cmd
+    status_command "$status_cmd"
 }
 
 exec_always --no-startup-id hsetroot -tile ~/.i3/wallpaper.png
@@ -21,8 +27,7 @@ exec --no-startup-id compton -cCGb --backend glx --vsync opengl --xinerama-shado
 exec --no-startup-id xsettingsd
 exec --no-startup-id dunst
 exec --no-startup-id mpd --no-daemon
-
-exec --no-startup-id xautolock -time 5 -locker "ncmpcpp pause && i3lock -e -d -I 10 -i ~/.i3/wallpaper.png -t"
+exec --no-startup-id xautolock -time 5 -notify 5 -notifier "$lock_notify_cmd" -locker "$spotify_cmd org.mpris.MediaPlayer2.Player.Pause ; $lock_cmd"
 bindsym Control+Mod1+l exec xautolock -locknow
 
 # key bindings
@@ -50,12 +55,12 @@ bindsym $mod+Shift+g floating toggle
 bindsym $mod+g focus mode_toggle
 
 # multimedia keys
-bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-' && pkill -USR1 -f $status_cmd
-bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+' && pkill -USR1 -f $status_cmd
-bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -USR1 -f $status_cmd
-bindsym XF86AudioPlay exec ncmpcpp toggle
-bindsym XF86AudioNext exec ncmpcpp next
-bindsym XF86AudioPrev exec ncmpcpp prev
+bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-' && $update_cmd
+bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+' && $update_cmd
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && $update_cmd
+bindsym XF86AudioPlay exec $spotify_cmd org.mpris.MediaPlayer2.Player.PlayPause
+bindsym XF86AudioNext exec $spotify_cmd org.mpris.MediaPlayer2.Player.Next
+bindsym XF86AudioPrev exec $spotify_cmd org.mpris.MediaPlayer2.Player.Previous
 
 # i3 mgmt
 bindsym Control+$mod+BackSpace restart
