@@ -1,38 +1,42 @@
 #!/bin/bash
+
 function install_homebrew {
-    trap "{ rm -f brew.rb; }" EXIT
-    curl -L "https://raw.githubusercontent.com/Homebrew/install/master/install" > brew.rb
-    sed -i "" "s;HOMEBREW_PREFIX = .*;HOMEBREW_PREFIX = '/usr/local/homebrew';" brew.rb
-    ruby brew.rb
+    echo 'Installing hombrew'
+    sudo git clone https://github.com/Homebrew/brew.git /usr/local/homebrew
+    sudo chown -R $(whoami):admin /usr/local/homebrew
 }
 
 function install_bashrc {
+    echo 'Installing .bashrc'
     sudo cp DIR_COLORS /etc/DIR_COLORS
     sudo cp bashrc.local /etc/bashrc.local
 
-    sudo -H -s "cp bashrc ~/.bashrc"
-    sudo -H -s "cp profile ~/.profile"
+    sudo -H -s cp bashrc '$HOME/.bashrc'
+    sudo -H -s cp profile '$HOME/.profile'
 
     cp bashrc ~/.bashrc && source ~/.bashrc
     cp profile ~/.profile && source ~/.profile
 }
 
 function install_packages {
-    brew install vim --override-system-vi
+    echo 'Installing packages'
+    brew install vim --with-override-system-vi
     brew tap thoughtbot/formulae
     brew install `tr '\n' ' ' < pkg_brew`
 }
 
 function install_dotvim {
+    echo 'Installing .vim'
     sudo git clone https://github.com/alexcepoi/dotvim.git /etc/vim
     sudo git clone https://github.com/gmarik/Vundle.vim.git /etc/vim/bundle/Vundle.vim
     sudo vim +PluginInstall +qall
 
     cp vimrc ~/.vimrc
-    sudo -H -s "cp vimrc ~/.vimrc"
+    sudo -H -s cp vimrc '$HOME/.vimrc'
 }
 
 function install_dotfiles {
+    echo 'Installing dotfiles'
     cp rcrc ~/.rcrc
     rcup -t mac
 }

@@ -11,14 +11,11 @@ export HISTSIZE=10000
 # paths
 BREW_PREFIX="/usr/local/homebrew"
 export PATH="$BREW_PREFIX/bin:$BREW_PREFIX/sbin:$PATH"
-
-BREW_COREUTILS=`brew --prefix coreutils`
-export PATH="$BREW_COREUTILS/libexec/gnubin:$PATH"
-
+export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:$BREW_PREFIX/share/npm/bin"
 export PATH="$PATH:/usr/texbin"
 
-export MANPATH="$BREW_COREUTILS/libexec/gnuman:$MANPATH"
+export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # bash options
 # shopt -s globstar
