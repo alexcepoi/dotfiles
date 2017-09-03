@@ -1,12 +1,16 @@
 [ui]
-username = Alex Cepoi <alex.cepoi@gmail.com>
+username = alexcepoi
 verbose = true
-merge = internal:merge
+merge = internal:merge3
 ignore = ~/.hgignore_global
 
 [defaults]
 log = --follow
 push = --branch . --new-branch
+
+[pager]
+pager = less -+F -+X -c
+attend-help = true
 
 [extensions]
 color =

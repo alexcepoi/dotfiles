@@ -10,15 +10,21 @@
     default = simple
 [branch]
     autosetuprebase = always
+[status]
+    short = true
 [color]
     ui = true
 [alias]
     alias = config --get-regexp ^alias.
     amend = commit --amend --reuse-message=HEAD --reset-author
     stat = diff --stat
+    pending = branch --sort=-committerdate --format='%(HEAD) %(align:30)%(color:yellow)%(refname:short)%(color:reset)%(end) %(committerdate:relative)' --no-merged master
+    s = status
+    st = diff --stat
+    d = diff
+    l = log --stat
 [pager]
     stat = false
-[google]
-    uplink = true
+    st = false
 [include]
     path = .gitconfig.local

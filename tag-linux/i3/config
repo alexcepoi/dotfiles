@@ -1,6 +1,5 @@
 # variables
 set $status_cmd python3 $HOME/.i3/pystatus.py
-set $spotify_cmd dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2
 set $lock_notify_cmd notify-send -u low --app-name=xautolock 'Sleeping ...zZzZzZ' 'Press any key to abort...'
 set $lock_cmd i3lock -e -I 10 -i ~/.i3/wallpaper.png -t
 set $update_cmd pkill -USR1 -f $status_cmd
@@ -14,6 +13,7 @@ font pango:Monospace 8
 workspace_layout tabbed
 
 # general
+focus_on_window_activation focus
 bar {
     colors {
         separator "#444444"
@@ -27,17 +27,18 @@ exec --no-startup-id compton -cCGb --backend glx --vsync opengl --xinerama-shado
 exec --no-startup-id xsettingsd
 exec --no-startup-id dunst
 exec --no-startup-id mpd --no-daemon
-exec --no-startup-id xautolock -time 5 -notify 5 -notifier "$lock_notify_cmd" -locker "$spotify_cmd org.mpris.MediaPlayer2.Player.Pause ; $lock_cmd"
+exec --no-startup-id xautolock -time 5 -notify 5 -notifier "$lock_notify_cmd" -locker "$lock_cmd"
 bindsym Control+Mod1+l exec xautolock -locknow
 
 # key bindings
-bindsym $mod+Return exec urxvt -sl 0 -e zsh -c "tx `tmux ls -F '#S' | dmenu -i -p tmux: -fn 'Monospace-8'`"
-bindsym $mod+Shift+Return exec urxvt -cd "`xcwd`"
+bindsym $mod+Return exec zsh -c "urxvt -sl 0 -e zsh -c 'tx `tmux ls -F \"#S\" | dmenu -i -p tmux: -fn 'Monospace-8'`'"
+bindsym $mod+Shift+Return exec zsh -c "urxvt"
 bindsym $mod+space exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -p Go: -fn 'Monospace-8'"
 bindsym $mod+q kill
 bindsym $mod+c exec google-chrome
 bindsym $mod+grave workspace back_and_forth
 bindsym $mod+Tab workspace next_on_output
+bindsym $mod+Shift+Tab workspace prev_on_output
 
 # splits
 bindsym $mod+bracketleft split h
@@ -54,13 +55,14 @@ bindsym $mod+a focus parent
 bindsym $mod+Shift+g floating toggle
 bindsym $mod+g focus mode_toggle
 
+# scratchpad
+bindsym $mod+Shift+BackSpace move scratchpad
+bindsym $mod+BackSpace scratchpad show
+
 # multimedia keys
 bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-' && $update_cmd
 bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+' && $update_cmd
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && $update_cmd
-bindsym XF86AudioPlay exec $spotify_cmd org.mpris.MediaPlayer2.Player.PlayPause
-bindsym XF86AudioNext exec $spotify_cmd org.mpris.MediaPlayer2.Player.Next
-bindsym XF86AudioPrev exec $spotify_cmd org.mpris.MediaPlayer2.Player.Previous
 
 # i3 mgmt
 bindsym Control+$mod+BackSpace restart
@@ -76,9 +78,6 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-bindsym $mod+Mod1+h focus parent; focus left
-bindsym $mod+Mod1+l focus parent; focus right
-
 bindsym $mod+Control+h focus output left
 bindsym $mod+Control+l focus output right
 bindsym $mod+Control+Shift+h move to output left; focus output left
@@ -92,26 +91,29 @@ set $side_screen DP-1
 bindsym $mod+u focus output $aux_screen
 bindsym $mod+i focus output $main_screen
 bindsym $mod+o focus output $side_screen
+bindsym $mod+Shift+u move to output $aux_screen; focus output $aux_screen
+bindsym $mod+Shift+i move to output $main_screen; focus output $main_screen
+bindsym $mod+Shift+o move to output $side_screen; focus output $side_screen
 
 set $w1 "1: adm"
 set $w2 "2: oncall"
 set $w3 "3: work"
-set $w4 "4"
-set $w5 "5: code"
-set $w6 "6: web"
+set $w4 "4: code"
+set $w5 "5: web"
+set $w6 "6"
 set $w7 "7"
 set $w8 "8: chat"
 set $w9 "9: work"
 set $w0 "10: play"
 
-assign [class="^Gvim$"] $w5
-for_window [title="Hangouts"] move container to workspace number $w8
+assign [class="^Gvim$"] $w4
+assign [class="^Google-chrome$" instance="^.*google-chrome-xdg.*$"] $w9
 for_window [window_role="pop-up"] floating enabled
 
 workspace $w1 output $aux_screen
 workspace $w2 output $aux_screen
 workspace $w3 output $aux_screen
-workspace $w4 output $aux_screen
+workspace $w4 output $main_screen
 workspace $w5 output $main_screen
 workspace $w6 output $main_screen
 workspace $w7 output $main_screen

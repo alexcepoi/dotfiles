@@ -74,7 +74,7 @@ urxvt.iso14755_52: false
 ! plugins
 urxvt.perl-ext: default,clipboard,url-select,font-size
 urxvt.clipboard.autocopy: true
-urxvt.url-select.launcher: x-www-browser
+urxvt.url-select.launcher: /usr/bin/xdg-open
 urxvt.url-select.underline: true
 urxvt.keysym.M-u: perl:url-select:select_next
 urxvt.keysym.M-c: perl:clipboard:copy

@@ -40,9 +40,6 @@ if __name__ == '__main__':
                   format='{avg1} {avg5} {avg15}',
                   critical_limit=CPU_COUNT)
   status.register(Loas)
-  status.register('weather',
-                  backend=weathercom.Weathercom(location_code='UKXX0085'),
-                  colorize=True)
   status.register('pulseaudio',
                   format='♪ {volume_bar}',
                   format_muted='  {volume_bar}',
