@@ -26,14 +26,13 @@ exec --no-startup-id test -f ~/.Xresources && xrdb -load ~/.Xresources
 exec --no-startup-id compton -cCGb --backend glx --vsync opengl --xinerama-shadow-crop
 exec --no-startup-id xsettingsd
 exec --no-startup-id dunst
-exec --no-startup-id mpd --no-daemon
 exec --no-startup-id xautolock -time 5 -notify 5 -notifier "$lock_notify_cmd" -locker "$lock_cmd"
 bindsym Control+Mod1+l exec xautolock -locknow
 
 # key bindings
-bindsym $mod+Return exec zsh -c "urxvt -sl 0 -e zsh -c 'tx `tmux ls -F \"#S\" | dmenu -i -p tmux: -fn 'Monospace-8'`'"
+bindsym $mod+Return exec zsh -c "urxvt -sl 0 -e zsh -c 'tx `tmux ls -F \"#S\" | dmenu -i -p tmux: -fn 'Monospace-9'`'"
 bindsym $mod+Shift+Return exec zsh -c "urxvt"
-bindsym $mod+space exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -p Go: -fn 'Monospace-8'"
+bindsym $mod+space exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -i -p Go: -fn 'Monospace-9'"
 bindsym $mod+q kill
 bindsym $mod+c exec google-chrome
 bindsym $mod+grave workspace back_and_forth
@@ -60,9 +59,9 @@ bindsym $mod+Shift+BackSpace move scratchpad
 bindsym $mod+BackSpace scratchpad show
 
 # multimedia keys
-bindsym XF86AudioLowerVolume exec amixer -q -M -D pulse sset Master '5%-' && $update_cmd
-bindsym XF86AudioRaiseVolume exec amixer -q -M -D pulse sset Master '5%+' && $update_cmd
-bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && $update_cmd
+bindsym XF86AudioLowerVolume exec amixer -q -M sset Master '5%-' && $update_cmd
+bindsym XF86AudioRaiseVolume exec amixer -q -M sset Master '5%+' && $update_cmd
+bindsym XF86AudioMute exec amixer -q sset Master toggle && $update_cmd
 
 # i3 mgmt
 bindsym Control+$mod+BackSpace restart
@@ -84,9 +83,9 @@ bindsym $mod+Control+Shift+h move to output left; focus output left
 bindsym $mod+Control+Shift+l move to output right; focus output right
 
 # screens & workspaces
-set $aux_screen DVI-D-0
-set $main_screen DVI-I-1
-set $side_screen DP-1
+set $aux_screen DP-7
+set $main_screen DP-5
+set $side_screen DP-4
 
 bindsym $mod+u focus output $aux_screen
 bindsym $mod+i focus output $main_screen

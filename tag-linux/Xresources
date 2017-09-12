@@ -1,5 +1,5 @@
 ! fonts
-! Xft.dpi: 96
+Xft.dpi: 96
 Xft.rgba: rgb
 Xft.antialias: true
 Xft.hinting: true
@@ -33,7 +33,7 @@ Xft.lcdfilter: lcddefault
 *vt100.color15: #eeeeec
 
 ! xterm
-xterm*faceName: Monospace
+xterm*faceName: Dejavu Sans Mono
 xterm*faceSize: 9
 xterm*termName: xterm-256color
 xterm*saveLines: 100000
@@ -58,7 +58,7 @@ urxvt.color13: #ad7fa8
 urxvt.color14: #34e2e2
 urxvt.color15: #eeeeec
 
-urxvt.font: xft:Monospace:size=9
+urxvt.font: xft:Dejavu Sans Mono:size=9
 urxvt.letterSpace: -2
 urxvt.cursorBlink: 1
 

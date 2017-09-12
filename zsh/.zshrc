@@ -7,6 +7,10 @@ autoload -Uz compinit && compinit
 autoload -Uz bashcompinit && bashcompinit
 autoload -Uz promptinit && promptinit
 
+if [ ${TMUX} ]; then
+  unset zle_bracketed_paste
+fi
+
 # Completion settings
 setopt noautomenu
 LISTMAX=0
