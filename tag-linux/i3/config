@@ -1,5 +1,6 @@
 # variables
 set $status_cmd python3 $HOME/.i3/pystatus.py
+set $spotify_cmd dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2
 set $lock_notify_cmd notify-send -u low --app-name=xautolock 'Sleeping ...zZzZzZ' 'Press any key to abort...'
 set $lock_cmd i3lock -e -I 10 -i ~/.i3/wallpaper.png -t
 set $update_cmd pkill -USR1 -f $status_cmd
@@ -26,7 +27,7 @@ exec --no-startup-id test -f ~/.Xresources && xrdb -load ~/.Xresources
 exec --no-startup-id compton -cCGb --backend glx --vsync opengl --xinerama-shadow-crop
 exec --no-startup-id xsettingsd
 exec --no-startup-id dunst
-exec --no-startup-id xautolock -time 5 -notify 5 -notifier "$lock_notify_cmd" -locker "$lock_cmd"
+exec_always --no-startup-id xautolock -time 5 -notify 5 -notifier "$lock_notify_cmd" -locker "$spotify_cmd org.mpris.MediaPlayer2.Player.Pause ; $lock_cmd"
 bindsym Control+Mod1+l exec xautolock -locknow
 
 # key bindings
@@ -62,6 +63,9 @@ bindsym $mod+BackSpace scratchpad show
 bindsym XF86AudioLowerVolume exec amixer -q -M sset Master '5%-' && $update_cmd
 bindsym XF86AudioRaiseVolume exec amixer -q -M sset Master '5%+' && $update_cmd
 bindsym XF86AudioMute exec amixer -q sset Master toggle && $update_cmd
+bindsym XF86AudioPlay exec $spotify_cmd org.mpris.MediaPlayer2.Player.PlayPause && $update_cmd
+bindsym XF86AudioNext exec $spotify_cmd org.mpris.MediaPlayer2.Player.Next && $update_cmd
+bindsym XF86AudioPrev exec $spotify_cmd org.mpris.MediaPlayer2.Player.Previous && $update_cmd
 
 # i3 mgmt
 bindsym Control+$mod+BackSpace restart
