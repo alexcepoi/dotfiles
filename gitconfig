@@ -26,5 +26,6 @@
 [pager]
     stat = false
     st = false
+    pending = false
 [include]
     path = .gitconfig.local
