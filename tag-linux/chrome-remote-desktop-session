@@ -1,1 +1,1 @@
-exec lightdm-session i3 -a
+exec i3

@@ -42,11 +42,6 @@ tx() {
         ln -snf -- "${SSH_AUTH_SOCK}" "${d}/${t}"
     fi
 
-    if tmux list-sessions 2> /dev/null | grep -q "^${name}:"; then
-        DISPLAY=:0 TERM=xterm-256color SSH_AUTH_SOCK="${d}/${t}" \
-            tmux ${args} attach -t "${name}"
-    else
-        DISPLAY=:0 TERM=xterm-256color SSH_AUTH_SOCK="${d}/${t}" \
-            tmux ${args} new -s "${name}"
-    fi
+    DISPLAY=:0 TERM=xterm-256color SSH_AUTH_SOCK="${d}/${t}" \
+        tmux ${args} new -A -s "${name}"
 }

@@ -11,6 +11,9 @@ push = --branch . --new-branch
 [pager]
 pager = less -+F -+X -c
 attend-help = true
+attend-xl = true
+attend-ll = true
+attend-pdiff = true
 
 [extensions]
 color =
@@ -23,3 +26,6 @@ progress =
 purge =
 rebase =
 shelve =
+
+[google_hgext]
+pickcheckout.enable_curses_ui = true

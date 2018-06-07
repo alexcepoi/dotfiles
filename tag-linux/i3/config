@@ -10,7 +10,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # look and feel
-font pango:Monospace 8
+font pango:Monospace 9
 workspace_layout tabbed
 
 # general

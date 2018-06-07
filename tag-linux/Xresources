@@ -59,7 +59,6 @@ urxvt.color14: #34e2e2
 urxvt.color15: #eeeeec
 
 urxvt.font: xft:Dejavu Sans Mono:size=9
-urxvt.letterSpace: -2
 urxvt.cursorBlink: 1
 
 urxvt.saveLines: 100000
