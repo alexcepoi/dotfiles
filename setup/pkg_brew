@@ -1,14 +1,15 @@
 ack
+bash
 bash-completion
+clang-format
 cmake
 coreutils
 git
+go
 grc
 hh
-htop-osx
-mtr
+htop
 netcat
-nmap
 node
 python
 rcm
@@ -16,6 +17,4 @@ sloccount
 the_silver_searcher
 tmux
 tree
-valgrind
-vim
 wget

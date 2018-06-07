@@ -1,3 +1,4 @@
 DOTFILES_DIRS="$HOME/work/dotfiles $HOME/work/gdotfiles"
 SYMLINK_DIRS="zsh"
 EXCLUDES="setup"
+TAGS="mac"
