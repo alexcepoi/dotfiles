@@ -12,5 +12,8 @@
 /dist/
 /*.egg-info/
 
+# js
+/node_modules/
+
 # tools
 sandman-genfiles/

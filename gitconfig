@@ -8,8 +8,8 @@
     excludesfile = ~/.gitignore_global
 [push]
     default = simple
-[branch]
-    autosetuprebase = always
+[pull]
+    rebase = true
 [status]
     short = true
 [color]

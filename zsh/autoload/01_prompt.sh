@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env zsh
 
 set_prompt() {
     GVIM_SERVER='GVIM'

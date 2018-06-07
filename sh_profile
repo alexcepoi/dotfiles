@@ -1,0 +1,27 @@
+#! /usr/bin/env bash
+
+function prepend_path {
+  local dir=$1 path=$2
+  if [[ :$path: =~ :$dir: ]]; then
+    path="${path#$dir:}"        # remove if at start
+    path="${path%:$dir}"        # remove if at end
+    path="${path//:$dir:/:}"    # remove if in middle
+  fi
+  printf %s "$dir${path:+":$path"}"
+}
+
+# Path settings
+PATH="$(prepend_path "$HOME/.bin" $PATH)"
+
+# Homebrew paths
+BREW_PREFIX="$HOME/brew"
+PATH="$(prepend_path "$BREW_PREFIX/share/npm/bin" $PATH)"
+PATH="$(prepend_path "$BREW_PREFIX/sbin" $PATH)"
+PATH="$(prepend_path "$BREW_PREFIX/bin" $PATH)"
+PATH="$(prepend_path "$BREW_PREFIX/opt/coreutils/libexec/gnubin" $PATH)"
+
+MANPATH="$(prepend_path "$BREW_PREFIX/opt/coreutils/libexec/gnuman" $MANPATH)"
+
+export PATH
+export MANPATH
+unset -f prepend_path

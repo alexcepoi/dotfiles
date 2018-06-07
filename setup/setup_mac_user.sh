@@ -24,7 +24,7 @@ function install_dotvim {
 function install_dotfiles {
     echo '> Installing dotfiles'
     cp rcrc "$HOME/.rcrc"
-    rcup -t mac
+    rcup
 }
 
 # main

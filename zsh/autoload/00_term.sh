@@ -1,4 +1,17 @@
-#! /bin/sh
+#! /usr/bin/env zsh
+
+if [ ${TMUX} ]; then
+  unset zle_bracketed_paste
+fi
+
+# Load GNU dircolors if present.
+if command -v dircolors &> /dev/null; then
+  if [ -f ~/.dir_colors ]; then
+    eval "$(dircolors -b ~/.dir_colors)"
+  else
+    eval "$(dircolors -b)"
+  fi
+fi
 
 reset() {
     command reset

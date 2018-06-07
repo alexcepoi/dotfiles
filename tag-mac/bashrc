@@ -2,34 +2,13 @@
 
 PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] \[\e]0;\a\007\]'
 
+# Load any common interactive shell settings if present.
+[ -r ~/.shrc ]  && source ~/.shrc
+
 # Environment variables
-export LANG="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
-
-export EDITOR="vim"
-export PAGER="less -R"
-export HISTSIZE=10000
-export HH_CONFIG=hicolor,rawhistory
-
-# Homebrew paths
-BREW_PREFIX="$HOME/brew"
-export PATH="$BREW_PREFIX/bin:$PATH"
-export PATH="$BREW_PREFIX/sbin:$PATH"
-export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
-export PATH="$PATH:$BREW_PREFIX/share/npm/bin"
-export PATH="$PATH:/usr/texbin"
-
-export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
+export HISTSIZE=100000
 
 # Bash options
 shopt -s globstar
 [ -r $BREW_PREFIX/etc/bash_completion ] && source $BREW_PREFIX/etc/bash_completion
 [ -r $BREW_PREFIX/etc/grc.bashrc ] && source "$BREW_PREFIX/etc/grc.bashrc"
-
-# Aliases
-alias ls='ls --color=auto'
-alias grep='grep --colour=auto'
-
-alias la='ls -A'
-alias ll='ls -l'
-alias l='ls -lA'

@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env zsh
 
 gvi() {
     if gvim --serverlist | grep -Fxqi $GVIM_SERVER; then

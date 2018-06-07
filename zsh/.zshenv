@@ -1,11 +1,6 @@
 export ZDOTDIR="$HOME/.zsh"
 autoload -Uz colors && colors
 
-# Path settings
-if [ -d "$HOME/.bin" ] ; then
-    PATH="$HOME/.bin:$PATH"
-fi
-
 # History settings
 setopt incappendhistory histignorealldups histignorespace histreduceblanks
 HISTSIZE=100000
