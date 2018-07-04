@@ -13,14 +13,9 @@ function prepend_path {
 # Path settings
 PATH="$(prepend_path "$HOME/.bin" $PATH)"
 
-# Homebrew paths
-BREW_PREFIX="$HOME/brew"
-PATH="$(prepend_path "$BREW_PREFIX/share/npm/bin" $PATH)"
-PATH="$(prepend_path "$BREW_PREFIX/sbin" $PATH)"
-PATH="$(prepend_path "$BREW_PREFIX/bin" $PATH)"
-PATH="$(prepend_path "$BREW_PREFIX/opt/coreutils/libexec/gnubin" $PATH)"
-
-MANPATH="$(prepend_path "$BREW_PREFIX/opt/coreutils/libexec/gnuman" $MANPATH)"
+if [ -r "$HOME/.sh_profile.local" ]; then
+  source $HOME/.sh_profile.local
+fi
 
 export PATH
 export MANPATH
