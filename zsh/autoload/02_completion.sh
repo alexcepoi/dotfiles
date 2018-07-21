@@ -1,24 +1,29 @@
 #! /usr/bin/env zsh
 
-# Completion settings setopt noautomenu
+# Never prompt unless completions scroll more than one page.
 LISTMAX=0
 
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' insert-tab false
+#  Don't cycle through options.
+setopt no_auto_menu
+
+# Do partial completions.
+setopt completeinword
+
+# Show command descriptions.
 zstyle ':completion:*' verbose true
 
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+# On partial completions, highlight the character creating ambiguity.
+zstyle ':completion:*' show-ambiguity "4;$color[fg-yellow]"
 
-# zstyle ':completion:*' auto-description 'specify: %d'
-# zstyle ':completion:*' completer _expand _complete _correct _approximate
-# zstyle ':completion:*' format 'Completing %d'
-# zstyle ':completion:*' group-name ''
-# zstyle ':completion:*' menu select=2
-# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-# zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-# zstyle ':completion:*' menu select=long
-# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-# zstyle ':completion:*' use-compctl false
+# Tab always autocompletes, never inserts a character.
+zstyle ':completion:*' insert-tab false
+
+# Caching completion results.
+autoload -Uz compinit && compinit
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+# Highlight completions for various commands.
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,cmd'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'

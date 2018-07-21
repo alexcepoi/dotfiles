@@ -13,6 +13,7 @@ if command -v dircolors &> /dev/null; then
   fi
 fi
 
+# Clear screen.
 reset() {
     command reset
     if [[ -n $TMUX ]]; then
@@ -31,3 +32,24 @@ refresh() {
             done
     fi
 }
+
+# History search.
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^P" up-line-or-beginning-search
+bindkey "^N" down-line-or-beginning-search
+
+# Plugins
+if [ -f ~/.zgen/zgen.zsh ]; then
+  source ~/.zgen/zgen.zsh
+
+  if ! zgen saved; then
+    zgen load "zsh-users/zsh-completions"
+    zgen load "zsh-users/zsh-syntax-highlighting"
+    zgen load "djui/alias-tips"
+
+    zgen save
+  fi
+fi

@@ -8,6 +8,7 @@ set $update_cmd pkill -USR1 -f $status_cmd
 # modifier is win key
 set $mod Mod4
 floating_modifier $mod
+focus_wrapping no
 
 # look and feel
 font pango:Monospace 9

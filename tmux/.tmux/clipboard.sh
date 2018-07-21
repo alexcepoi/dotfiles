@@ -1,1 +1,0 @@
-/usr/local/google/home/alexcepoi/work/dotfiles/tmux/clipboard.sh
