@@ -19,6 +19,7 @@
     amend = commit --amend --reuse-message=HEAD --reset-author
     stat = diff --stat
     pending = branch --sort=-committerdate --format='%(HEAD) %(align:30)%(color:yellow)%(refname:short)%(color:reset)%(end) %(committerdate:relative)' --no-merged master
+    sl = log --pretty='format:%C(auto)%h %ad %Cgreen%<(15)%an %C(auto)%s %gd %d' --date=format-local:'%Y-%m-%d %H:%m'
     s = status
     st = diff --stat
     d = diff

@@ -12,6 +12,7 @@ function prepend_path {
 
 # Path settings
 PATH="$(prepend_path "$HOME/.bin" $PATH)"
+PATH="$(prepend_path "$HOME/.local/bin" $PATH)"
 
 if [ -r "$HOME/.sh_profile.local" ]; then
   source $HOME/.sh_profile.local
