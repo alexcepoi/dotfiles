@@ -3,7 +3,9 @@ bindkey -e
 
 autoload -Uz colors && colors
 autoload -Uz select-word-style && select-word-style bash
-autoload -Uz compinit && compinit
+setopt EXTENDEDGLOB
+autoload -Uz compinit && ( [[ -n ${ZDOTDIR}/.zcompdump(#qN.m-1)  ]] && compinit -C || compinit )
+unsetopt EXTENDEDGLOB
 autoload -Uz bashcompinit && bashcompinit
 autoload -Uz promptinit && promptinit
 
