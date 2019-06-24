@@ -13,9 +13,10 @@ function install_dotvim {
 }
 
 # main
-if [ $EUID != 0 ]; then
-    sudo "$0" "$@"
-    exit $?
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root"
+   exit 1
 fi
+
 [ -f "$HOME/.bashrc" ] && echo "> Skipping bashrc" || install_bashrc
 [ -d "$HOME/.vim" ] && echo "> Skipping vim" || install_dotvim

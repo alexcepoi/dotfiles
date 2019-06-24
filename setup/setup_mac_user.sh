@@ -9,7 +9,6 @@ function install_homebrew {
 
     echo '> Installing packages'
     $HOMEBREW_BIN tap thoughtbot/formulae
-    $HOMEBREW_BIN install vim --with-override-system-vi
     $HOMEBREW_BIN install `tr '\n' ' ' < pkg_brew`
 }
 
@@ -24,7 +23,7 @@ function install_dotvim {
 function install_dotfiles {
     echo '> Installing dotfiles'
     cp rcrc "$HOME/.rcrc"
-    rcup
+    PATH=$HOMEBREW_BIN:$PATH rcup
 }
 
 # main
