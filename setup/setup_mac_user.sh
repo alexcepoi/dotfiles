@@ -8,7 +8,6 @@ function install_homebrew {
     git clone https://github.com/Homebrew/brew.git $HOMEBREW_PREFIX
 
     echo '> Installing packages'
-    $HOMEBREW_BIN tap thoughtbot/formulae
     $HOMEBREW_BIN install `tr '\n' ' ' < pkg_brew`
 }
 
@@ -22,11 +21,10 @@ function install_dotvim {
 
 function install_dotfiles {
     echo '> Installing dotfiles'
-    cp rcrc "$HOME/.rcrc"
-    PATH=$HOMEBREW_BIN:$PATH rcup
+    PATH=$HOMEBREW_BIN:$PATH stow -t $HOME -d `dirname "$0"` common osx
 }
 
 # main
 command -v brew &> /dev/null && echo "> Skipping homebrew" || install_homebrew
 [ -d "$HOME/.vim" ] && echo "> Skipping vim" || install_dotvim
-[ -f "$HOME/.rcrc" ] && echo "> Skipping dotfiles" || install_dotfiles
+install_dotfiles

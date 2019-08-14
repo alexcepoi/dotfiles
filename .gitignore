@@ -1,8 +1,7 @@
 # zsh cache files
-zsh/autoload/local
-zsh/cache/
-zsh/completion/*
-zsh/.zcompdump*
-zsh/.zcompdumps/
+common/.zsh/cache/
+common/.zsh/completion/*
+common/.zsh/.zcompdump*
+common/.zsh/.zcompdumps/
 
 !/**/.gitkeep

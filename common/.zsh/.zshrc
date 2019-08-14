@@ -16,6 +16,6 @@ autoload -Uz promptinit && promptinit
 for file in  ~/.zsh/autoload/*(N); do
     source "$file"
 done
-for file in  ~/.zsh/autoload/local/*(N); do
+for file in  ~/.zsh_local/autoload/*(N); do
     source "$file"
 done
