@@ -1,8 +1,7 @@
 # variables
 set $status_cmd python3 $HOME/.i3/pystatus.py
 set $spotify_cmd dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2
-set $lock_notify_cmd notify-send -u low --app-name=xautolock 'Sleeping ...zZzZzZ' 'Press any key to abort...'
-set $lock_cmd i3lock -e -i ~/.i3/wallpaper.png -t
+set $lock_cmd i3lock -n -e -i ~/.i3/wallpaper.png -t
 set $update_cmd pkill -USR1 -f $status_cmd
 
 # modifier is win key
@@ -21,15 +20,34 @@ bar {
         separator "#444444"
     }
     status_command "$status_cmd"
+
+  # Disable all mouse events in i3bar.
+  # bindsym button1 nop
+  # bindsym button2 nop
+  # bindsym button3 nop
+  bindsym button4 nop
+  bindsym button5 nop
 }
+
+# Disable all mouse events.
+# bindsym button1 nop
+# bindsym button2 nop
+# bindsym button3 nop
+bindsym button4 nop
+bindsym button5 nop
+
+# Disable mouse scrolling in i3.
+# bindsym button4 nop
+# bindsym button5 nop
 
 exec_always --no-startup-id hsetroot -tile ~/.i3/wallpaper.png
 exec --no-startup-id test -f ~/.Xresources && xrdb -load ~/.Xresources
-exec --no-startup-id compton -cCGb --backend glx --vsync opengl --xinerama-shadow-crop
+exec --no-startup-id compton -cCGb --backend glx --vsync opengl --xinerama-shadow-crop --paint-on-overlay --unredir-if-possible
 exec --no-startup-id xsettingsd
 exec --no-startup-id dunst
-exec_always --no-startup-id xautolock -time 5 -notify 5 -notifier "$lock_notify_cmd" -locker "$lock_cmd"
-bindsym Control+Mod1+l exec xautolock -locknow
+
+exec_always --no-startup-id "xset s 300 && xss-lock -l -- $lock_cmd"
+bindsym Control+Mod1+l exec loginctl lock-session
 
 # key bindings
 bindsym $mod+Return exec zsh -c "urxvt -sl 0 -e zsh -c 'tx `tmux ls -F \"#S\" | dmenu -i -p tmux: -fn 'Monospace-9'`'"
@@ -74,13 +92,13 @@ bindsym Control+Mod1+BackSpace exit
 
 # change focus & move focused window
 bindsym $mod+h focus left
+bindsym $mod+l focus right
 bindsym $mod+j focus down
 bindsym $mod+k focus up
-bindsym $mod+l focus right
 bindsym $mod+Shift+h move left
+bindsym $mod+Shift+l move right
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
 
 bindsym $mod+Control+h focus output left
 bindsym $mod+Control+l focus output right
@@ -104,11 +122,11 @@ set $w2 "2: oncall"
 set $w3 "3: work"
 set $w4 "4: code"
 set $w5 "5: web"
-set $w6 "6"
+set $w6 "6: play"
 set $w7 "7"
 set $w8 "8: chat"
 set $w9 "9: work"
-set $w0 "10: play"
+set $w0 "10"
 
 assign [class="^Gvim$"] $w4
 assign [class="^Google-chrome$" instance="^.*google-chrome-xdg.*$"] $w9

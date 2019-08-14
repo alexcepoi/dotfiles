@@ -8,6 +8,7 @@ setopt no_auto_menu
 
 # Do partial completions.
 setopt completeinword
+setopt complete_aliases
 
 # Show command descriptions.
 zstyle ':completion:*' verbose true

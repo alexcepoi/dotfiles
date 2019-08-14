@@ -33,7 +33,7 @@ class Loas(i3pystatus.IntervalModule):
 
 
 if __name__ == '__main__':
-  status = i3pystatus.Status(standalone=True)
+  status = i3pystatus.Status(standalone=True, click_events=False)
   status.register('clock', format=('%-d %b %H:%M %Z', 'America/Los_Angeles'))
   status.register('clock', format='%a %-d %b %H:%M', color=COLORS['blue'])
   status.register('load',
@@ -41,8 +41,8 @@ if __name__ == '__main__':
                   critical_limit=CPU_COUNT)
   status.register(Loas)
   status.register('pulseaudio',
-                  format='♪ {volume_bar}',
-                  format_muted='  {volume_bar}',
+                  format='♪ {volume}',
+                  format_muted='■ {volume}',
                   color_muted='#ffff00',
                   color_unmuted='#ff0000',
                   multi_colors=True)

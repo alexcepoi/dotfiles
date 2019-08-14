@@ -1,31 +1,18 @@
 [ui]
 username = alexcepoi
-verbose = true
 merge = internal:merge3
 ignore = ~/.hgignore_global
 
 [defaults]
-log = --follow
-push = --branch . --new-branch
+amend = -A
+commit = -A
 
 [pager]
 pager = less -+F -+X -c
-attend-help = true
-attend-xl = true
-attend-ll = true
-attend-pdiff = true
+attend-status = false
 
 [extensions]
-color =
-extdiff =
-graphlog =
-histedit =
-mq =
-pager =
-progress =
-purge =
-rebase =
-shelve =
+journal =
+share =
 
-[google_hgext]
-pickcheckout.enable_curses_ui = true
+%include .hgrc.local
