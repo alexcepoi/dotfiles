@@ -1,16 +1,5 @@
 #!/bin/bash
 
-HOMEBREW_PREFIX="$HOME/brew"
-HOMEBREW_BIN="$HOMEBREW_PREFIX/bin/brew"
-
-function install_homebrew {
-    echo '> Installing hombrew'
-    git clone https://github.com/Homebrew/brew.git $HOMEBREW_PREFIX
-
-    echo '> Installing packages'
-    $HOMEBREW_BIN install `tr '\n' ' ' < pkg_brew`
-}
-
 function install_dotvim {
     echo '> Installing .vim'
     git clone git@github.com:alexcepoi/dotvim.git "$HOME/.vim"
@@ -21,10 +10,9 @@ function install_dotvim {
 
 function install_dotfiles {
     echo '> Installing dotfiles'
-    PATH=$HOMEBREW_BIN:$PATH stow -t $HOME -d `dirname "$0"` common osx
+    stow -t $HOME -d $(dirname "$0")/.. common debian
 }
 
 # main
-command -v brew &> /dev/null && echo "> Skipping homebrew" || install_homebrew
 [ -d "$HOME/.vim" ] && echo "> Skipping vim" || install_dotvim
 install_dotfiles

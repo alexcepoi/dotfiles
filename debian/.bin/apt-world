@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+parallel -k -q eval 'printf "===> {//}\n$({/})\n\n"' ::: \
+  'IMPORTANT (non-lib non-manual)/aptitude search "(~E|~prequired|~pimportant) !(~slibs|soldlibs) (!~i|~M)"' \
+  'RESIDUAL/aptitude search "~c"' \
+  'OBSOLETE/aptitude search "~o"' \
+  'HELD/aptitude search "~ahold"' \
+  'MANUAL/aptitude search "!(~prequired|~pimportant|~E) ~i !~M"' \
+| less
