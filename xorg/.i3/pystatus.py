@@ -46,7 +46,4 @@ if __name__ == '__main__':
                   color_muted='#ffff00',
                   color_unmuted='#ff0000',
                   multi_colors=True)
-  status.register('now_playing',
-                  format="{artist} - {title} {status}",
-                  hide_no_player=True)
   status.run()

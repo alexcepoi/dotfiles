@@ -72,7 +72,7 @@ urxvt.iso14755_52: false
 
 ! plugins
 urxvt.perl-ext: default,url-select,font-size
-urxvt.url-select.launcher: /usr/bin/xdg-open
+urxvt.url-select.launcher: ./.bin/launch-in-sidebrowser
 urxvt.url-select.underline: true
 urxvt.keysym.M-u: perl:url-select:select_next
 

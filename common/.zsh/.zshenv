@@ -6,7 +6,6 @@ setopt incappendhistory histignorealldups histignorespace histreduceblanks
 HISTSIZE=100000
 SAVEHIST=100000
 export HISTFILE=~/.zsh_history
-export CHROME_USER_DATA_DIR="$HOME/.config/google-chrome-xdg"
 
 # Time reporting
 # REPORTTIME=5

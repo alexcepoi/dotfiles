@@ -10,7 +10,7 @@ function install_dotvim {
 
 function install_dotfiles {
     echo '> Installing dotfiles'
-    stow -t $HOME -d $(dirname "$0")/.. common debian -v
+    stow -t $HOME -d $(dirname "$0")/.. common debian xorg -v
 }
 
 # main

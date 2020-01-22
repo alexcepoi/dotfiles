@@ -21,7 +21,7 @@ function install_dotvim {
 
 function install_dotfiles {
     echo '> Installing dotfiles'
-    PATH=$HOMEBREW_BIN:$PATH stow -t $HOME -d `dirname "$0"` common osx
+    PATH=$HOMEBREW_BIN:$PATH stow -t $HOME -d "`dirname "$0"`/.." common osx -v
 }
 
 # main

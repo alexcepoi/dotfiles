@@ -129,8 +129,8 @@ set $w9 "9: work"
 set $w0 "10"
 
 assign [class="^Gvim$"] $w4
-assign [class="^Google-chrome$" instance="^.*google-chrome-xdg.*$"] $w9
 for_window [window_role="pop-up"] floating enabled
+bindsym $mod+apostrophe mark --toggle sidebrowser
 
 workspace $w1 output $aux_screen
 workspace $w2 output $aux_screen

@@ -6,6 +6,7 @@ ignore = ~/.hgignore_global
 [defaults]
 amend = -A
 commit = -A
+uncommit = --no-keep
 
 [pager]
 pager = less -+F -+X -c
@@ -14,5 +15,6 @@ attend-status = false
 [extensions]
 journal =
 share =
+purge =
 
 %include .hgrc.local
