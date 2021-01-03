@@ -6,10 +6,13 @@
 [core]
     pager = less -+F -+X -c
     excludesfile = ~/.gitignore_global
-[push]
-    default = simple
+[fetch]
+    prune = true
 [pull]
     rebase = true
+    prune = true
+[push]
+    default = current
 [status]
     short = true
 [color]
@@ -25,8 +28,10 @@
     d = diff
     l = log --stat
 [pager]
+    branch = false
     stat = false
     st = false
+    tag = false
     pending = false
 [include]
     path = .gitconfig.local
