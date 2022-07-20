@@ -1,0 +1,24 @@
+#! /usr/bin/env bash
+
+# Environment variables
+export LANG="en_GB.UTF-8"
+export LC_CTYPE="en_GB.UTF-8"
+
+export EDITOR="vi"
+export PAGER="less"
+export HH_CONFIG=hicolor,rawhistory
+
+# Aliases
+alias ls='ls --color=auto'
+alias la='ls -A'
+alias ll='ls -l'
+alias l='ls -lA'
+
+alias grep='grep --colour=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# Commands
+path () {
+  echo $PATH | tr -s ":" "\n"
+}

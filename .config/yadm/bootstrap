@@ -1,0 +1,53 @@
+#!/bin/bash
+set -e
+
+function log {
+  if [ $# -ne 1 ]; then
+    echo "Invalid log() with $# arguments: $*"
+    return -1
+  fi
+  echo "$(tput setaf 2)[$(date --rfc-3339=seconds)]$(tput sgr0) $1"
+}
+
+function install_dotvim {
+  if [ -d "$HOME/.vim" ]; then
+    log "Updating .vim git repo"
+    cd $HOME/.vim && git pull --rebase || true
+    log "Upgrading .vim plugins"
+    vim +PlugUpgrade +PlugUpdate +PlugClean +PlugInstall +qall
+  else
+    log "Installing .vim"
+    git clone git@github.com:alexcepoi/dotvim.git "$HOME/.vim"
+    curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+    vim +PlugInstall +qall
+  fi
+}
+
+function install_root_dotvim {
+  if sudo test -d ~root/.vim; then
+    log "Upgrading ~root/.vim git repo"
+    cd ~root/.vim && sudo git pull --rebase || true
+  else
+    log "Installing ~root/.vim"
+    sudo git clone https://github.com/alexcepoi/dotvim.git ~root/.vim
+  fi
+}
+
+function setup_debian {
+  if ! sudo grep -q "^PS1=" ~root/.bashrc; then
+    log "Fixing root PS1.. appending to ~root/.bashrc:"
+    echo | sudo tee -a ~root/.bashrc
+    echo PS1=\''${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '\' | sudo tee -a ~root/.bashrc
+  fi
+}
+
+# Main
+install_dotvim
+install_root_dotvim
+
+case $(grep ID /etc/os-release) in
+  *debian*)
+    setup_debian ;;
+esac

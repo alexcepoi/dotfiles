@@ -1,0 +1,39 @@
+[user]
+  name = Alex Cepoi
+  email = alex.cepoi@gmail.com
+[github]
+  user = alexcepoi
+[core]
+  pager = less -+F -+X -c
+  excludesfile = ~/.gitignore_global
+[init]
+  defaultBranch = main
+[fetch]
+  prune = true
+[pull]
+  rebase = true
+  prune = true
+[push]
+  default = current
+[status]
+  short = true
+[color]
+  ui = true
+[alias]
+  alias = config --get-regexp ^alias.
+  amend = commit --amend --reuse-message=HEAD --reset-author
+  stat = diff --stat
+  pending = branch --sort=-committerdate --format='%(HEAD) %(align:30)%(color:yellow)%(refname:short)%(color:reset)%(end) %(committerdate:relative)' --no-merged main
+  sl = log --pretty='format:%C(auto)%h %ad %Cgreen%<(15)%an %C(auto)%s %gd %d' --date=format-local:'%Y-%m-%d %H:%m'
+  s = status
+  st = diff --stat
+  d = diff
+  l = log --stat
+[pager]
+  branch = false
+  stat = false
+  st = false
+  tag = false
+  pending = false
+[include]
+  path = .gitconfig.local

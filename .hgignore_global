@@ -1,0 +1,14 @@
+syntax: glob
+
+# os
+.DS_Store
+
+# editor
+*~
+*.swp
+
+# python
+*.py[co]
+*.egg-info
+build/
+dist/

@@ -1,0 +1,38 @@
+# Ignore non-hidden files & directories
+/[^.]**
+
+# XDG local directories don't generally contain config files.
+.local/
+
+# Custom folders used to allow local configuration.
+.*[._]local/
+
+# Too sensitive to version.
+.ssh/
+.pki/
+
+# Should be tracked separately.
+.vim/
+.config/nvim/
+.vscode/
+
+# Ephemeral
+.*cache*
+.*history*
+.viminfo
+.lesshst
+.tmp/
+.zsh/cache/
+.zsh/completion/*
+.zsh/.zcompdump*
+.zsh/.zcompdumps/
+.zcompdumps/
+
+# OS-specific
+.bashrc
+.bash_logout
+.bash_profile
+.profile
+
+# Exceptions
+!/**/.gitkeep

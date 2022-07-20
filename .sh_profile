@@ -1,0 +1,29 @@
+#! /usr/bin/env bash
+
+function prepend_path {
+  local dir=$1 path=$2
+
+  if [ ! -d $dir ]; then
+    printf $path
+    return
+  fi
+
+  if [[ :$path: =~ :$dir: ]]; then
+    path="${path#$dir:}"        # remove if at start
+    path="${path%:$dir}"        # remove if at end
+    path="${path//:$dir:/:}"    # remove if in middle
+  fi
+  printf %s "$dir${path:+":$path"}"
+}
+
+# Path settings
+PATH="$(prepend_path "$HOME/.bin" $PATH)"
+PATH="$(prepend_path "$HOME/.local/bin" $PATH)"
+
+if [ -r "$HOME/.sh_profile.local" ]; then
+  source $HOME/.sh_profile.local
+fi
+
+export PATH
+export MANPATH
+unset -f prepend_path

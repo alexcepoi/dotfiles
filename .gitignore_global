@@ -1,0 +1,19 @@
+# os
+.DS_Store
+
+# editor
+**~
+**swp
+
+# python
+**py[co]
+.tox/
+/build/
+/dist/
+/*.egg-info/
+
+# js
+/node_modules/
+
+# tools
+sandman-genfiles/

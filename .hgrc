@@ -1,0 +1,25 @@
+[ui]
+username = alexcepoi
+merge = internal:merge3
+ignore = ~/.hgignore_global
+origbackuppath = google3/.tmp/hg/orig
+
+[defaults]
+amend = -A
+commit = -A
+uncommit = --no-keep
+
+[pager]
+pager = less -+F -+X -c
+attend-status = false
+
+[extensions]
+journal =
+share =
+purge =
+beautifygraph =
+
+[color]
+desc.here = orange bold
+
+%include .hgrc.local
