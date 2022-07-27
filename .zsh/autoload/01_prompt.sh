@@ -4,8 +4,8 @@ set_prompt() {
   GVIM_SERVER='GVIM'
 
   local G3_PROMPT="${PWD/#${HOME}/~}"
-  PS1="%B%F{green}%n@%m %F{blue}$G3_PROMPT %# %f%b%k"
-  PS2="%B%F{green}%n@%m %F{blue}$G3_PROMPT > %f%b%k"
+  PS1="%B%F{green}%m %F{blue}$G3_PROMPT %# %f%b%k"
+  PS2="%B%F{green}%m %F{blue}$G3_PROMPT > %f%b%k"
 }
 
 # prompt hooks
