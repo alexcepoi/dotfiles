@@ -132,7 +132,6 @@ function set_shell_zsh {
 
 function setup_osx {
   local_install_yadm
-  set_shell_zsh
 }
 
 function setup_debian {
@@ -148,6 +147,7 @@ cd $HOME
 install_dotvim
 command -v nvim &>/dev/null && install_dotnvim
 install_local_dotfiles
+set_shell_zsh
 
 # Root configs.
 install_root_dotvim
