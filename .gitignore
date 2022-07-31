@@ -4,17 +4,18 @@
 # XDG local directories don't generally contain config files.
 .local/
 
-# Custom folders used to allow local configuration.
-.*[._]local/
+# Custom files and folders used to allow local configuration.
+.*[._]local
 
 # Too sensitive to version.
 .ssh/
 .pki/
 
 # Should be tracked separately.
+.vscode/
 .vim/
 .config/nvim/
-.vscode/
+.config/yadm/local/
 
 # Ephemeral
 .*cache*

@@ -35,6 +35,72 @@ function install_root_dotvim {
   fi
 }
 
+function install_local_dotfiles {
+  function _contains {
+    local e match="$1"
+    shift
+    for e; do
+      [[ "$e" =~ ^$match(/.*)?$  ]] && return 0
+    done
+    return 1
+  }
+  function _symlink_dotfiles {
+    for dir in  $@; do
+      if [[ $dir =~ \./  || $dir =~ ^[/~] ]]; then
+        >&2 echo "Symlink directory path '$dir' not supported"
+        exit -1
+      fi
+      if [[ $dir == "." ]]; then
+        local target_dir=".config/yadm/local"
+        local link_dir="."
+      elif [[ $dir == ".config" ]]; then
+        local target_dir="yadm/local/$dir"
+        local link_dir="./$dir"
+      else
+        local prefix="${dir//[^\/]}"
+        local prefix="${prefix//[\/]/../}"
+        local target_dir="$prefix../.config/yadm/local/$dir"
+        local link_dir="./$dir"
+      fi
+
+      # Delete broken symlinks.
+      if [[ -d $link_dir ]]; then
+        find $link_dir -mindepth 1 -maxdepth 1 -type l | while read target; do
+          if [[ ! -e $target && $(readlink $target) == *yadm/local/* ]]; then
+            echo "${target#./} $(tput setaf 3)[purged]$(tput sgr0)"
+            rm $target
+          fi
+        done
+      fi
+
+      # Create local symlinks.
+      if [[ -d $link_dir/$target_dir ]]; then
+        (cd $link_dir && find $target_dir -mindepth 1 -maxdepth 1 ! -name ".git" ! -name ".gitignore") | while read target; do
+          mkdir -p $link_dir
+          local target_basename=${target##*/}
+          local link=$link_dir/${target_basename}
+          local link=${link#./}
+
+          # Don't symlink directories in which we need to selectively symlink.
+          if _contains $link $@; then
+            continue
+          fi
+
+          if [[ -L $link && $(readlink $link) == $target ]]; then
+            echo "$link -> $target $(tput setaf 2)[ok]$(tput sgr0)"
+          elif [[ -e $link ]]; then
+            echo "$link -> $target $(tput setaf 1)[conflict]$(tput sgr0)"
+          else
+            ln -snv $target $link
+          fi
+        done
+      fi
+    done
+  }
+  log "Installing local dotfiles"
+  _symlink_dotfiles "." ".config" ".config/goobuntu-backups" ".local/bin"
+}
+
 function local_install_yadm {
   log "Locally installing yadm"
   local yadm_bin="$HOME/.local/bin/yadm"
@@ -58,8 +124,10 @@ function setup_debian {
 }
 
 # Main
+cd $HOME
 install_dotvim
 install_root_dotvim
+install_local_dotfiles
 
 if [[ "$OSTYPE" =~ ^darwin ]]; then
   local_install_yadm
