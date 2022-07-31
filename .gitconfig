@@ -17,6 +17,8 @@
   default = current
 [status]
   short = true
+[commit]
+  verbose = true
 [color]
   ui = true
 [alias]
