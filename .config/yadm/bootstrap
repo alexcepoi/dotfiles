@@ -6,13 +6,13 @@ function log {
     echo "Invalid log() with $# arguments: $*"
     return -1
   fi
-  echo "$(tput setaf 2)[$(date --rfc-3339=seconds)]$(tput sgr0) $1"
+  echo "$(tput setaf 2)[$(date '+%Y-%m-%d %H:%M:%S %z')]$(tput sgr0) $1"
 }
 
 function install_dotvim {
   if [ -d "$HOME/.vim" ]; then
     log "Updating .vim git repo"
-    cd $HOME/.vim && git pull --rebase || true
+    git -C $HOME/.vim pull --rebase || true
     log "Upgrading .vim plugins"
     vim +PlugUpgrade +PlugUpdate +PlugClean +PlugInstall +qall
   else
@@ -28,10 +28,24 @@ function install_dotvim {
 function install_root_dotvim {
   if sudo test -d ~root/.vim; then
     log "Upgrading ~root/.vim git repo"
-    cd ~root/.vim && sudo git pull --rebase || true
+    sudo git -C ~root/.vim pull --rebase || true
   else
     log "Installing ~root/.vim"
     sudo git clone https://github.com/alexcepoi/dotvim.git ~root/.vim
+  fi
+}
+
+function local_install_yadm {
+  log "Locally installing yadm"
+  local yadm_bin="$HOME/.local/bin/yadm"
+  curl -fLo $yadm_bin --create-dirs https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x $yadm_bin
+}
+
+function set_shell_zsh {
+  local zsh_bin="/bin/zsh"
+  if [[ -f $zsh_bin  && $SHELL != $zsh_bin ]]; then
+    log "Changing SHELL to zsh"
+    chsh -s $zsh_bin
   fi
 }
 
@@ -47,7 +61,14 @@ function setup_debian {
 install_dotvim
 install_root_dotvim
 
-case $(grep ID /etc/os-release) in
-  *debian*)
-    setup_debian ;;
-esac
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+  local_install_yadm
+  set_shell_zsh
+fi
+
+if [[ "$OSTYPE" =~ ^linux ]]; then
+  case $(grep ID /etc/os-release) in
+    *debian*)
+      setup_debian ;;
+  esac
+fi
