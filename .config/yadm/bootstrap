@@ -35,6 +35,21 @@ function install_root_dotvim {
   fi
 }
 
+function install_dotnvim {
+  if [ -d "$HOME/.config/nvim" ]; then
+    log "Updating .config/nvim git repo"
+    git -C $HOME/.config/nvim pull --rebase || true
+    log "Upgrading .config/nvim plugins"
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  else
+    log "Installing .config/nvim"
+    git clone git@github.com:alexcepoi/dotnvim.git "$HOME/.config/nvim"
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  fi
+}
+
 function install_local_dotfiles {
   function _contains {
     local e match="$1"
@@ -115,6 +130,11 @@ function set_shell_zsh {
   fi
 }
 
+function setup_osx {
+  local_install_yadm
+  set_shell_zsh
+}
+
 function setup_debian {
   if ! sudo grep -q "^PS1=" ~root/.bashrc; then
     log "Fixing root PS1.. appending to ~root/.bashrc:"
@@ -123,18 +143,19 @@ function setup_debian {
   fi
 }
 
-# Main
+# User configs.
 cd $HOME
 install_dotvim
-install_root_dotvim
+command -v nvim &>/dev/null && install_dotnvim
 install_local_dotfiles
 
-if [[ $OSTYPE =~ ^darwin ]]; then
-  local_install_yadm
-  set_shell_zsh
-fi
+# Root configs.
+install_root_dotvim
 
-if [[ $OSTYPE =~ ^linux ]]; then
+# OS specific configs.
+if [[ $OSTYPE =~ ^darwin ]]; then
+  setup_osx
+elif [[ $OSTYPE =~ ^linux ]]; then
   case $(grep ID /etc/os-release) in
   *debian*)
     setup_debian
