@@ -40,14 +40,14 @@ function install_local_dotfiles {
     local e match="$1"
     shift
     for e; do
-      [[ "$e" =~ ^$match(/.*)?$  ]] && return 0
+      [[ $e =~ ^$match(/.*)?$ ]] && return 0
     done
     return 1
   }
   function _symlink_dotfiles {
-    for dir in  $@; do
-      if [[ $dir =~ \./  || $dir =~ ^[/~] ]]; then
-        >&2 echo "Symlink directory path '$dir' not supported"
+    for dir in $@; do
+      if [[ $dir =~ \./ || $dir =~ ^[/~] ]]; then
+        echo >&2 "Symlink directory path '$dir' not supported"
         exit -1
       fi
       if [[ $dir == "." ]]; then
@@ -57,7 +57,7 @@ function install_local_dotfiles {
         local target_dir="yadm/local/$dir"
         local link_dir="./$dir"
       else
-        local prefix="${dir//[^\/]}"
+        local prefix="${dir//[^\/]/}"
         local prefix="${prefix//[\/]/../}"
         local target_dir="$prefix../.config/yadm/local/$dir"
         local link_dir="./$dir"
@@ -109,7 +109,7 @@ function local_install_yadm {
 
 function set_shell_zsh {
   local zsh_bin="/bin/zsh"
-  if [[ -f $zsh_bin  && $SHELL != $zsh_bin ]]; then
+  if [[ -f $zsh_bin && $SHELL != $zsh_bin ]]; then
     log "Changing SHELL to zsh"
     chsh -s $zsh_bin
   fi
@@ -129,14 +129,15 @@ install_dotvim
 install_root_dotvim
 install_local_dotfiles
 
-if [[ "$OSTYPE" =~ ^darwin ]]; then
+if [[ $OSTYPE =~ ^darwin ]]; then
   local_install_yadm
   set_shell_zsh
 fi
 
-if [[ "$OSTYPE" =~ ^linux ]]; then
+if [[ $OSTYPE =~ ^linux ]]; then
   case $(grep ID /etc/os-release) in
-    *debian*)
-      setup_debian ;;
+  *debian*)
+    setup_debian
+    ;;
   esac
 fi
