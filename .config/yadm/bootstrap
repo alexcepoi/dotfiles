@@ -116,6 +116,17 @@ function install_local_dotfiles {
   _symlink_dotfiles "." ".config" ".config/goobuntu-backups" ".local/bin"
 }
 
+function install_ssh_keys {
+  log "Authorizing local ssh keys"
+  local keys_fname=$HOME/.ssh/authorized_keys
+  find $HOME/.ssh/*.pub -type f | while read pubkey_fname; do
+    local pubkey=$(<$pubkey_fname)
+    if [[ ! -f $keys_fname ]] || ! grep -q "$pubkey" $keys_fname; then
+      echo $pubkey >>$keys_fname
+    fi
+  done
+}
+
 function local_install_yadm {
   log "Locally installing yadm"
   local yadm_bin="$HOME/.local/bin/yadm"
@@ -147,6 +158,7 @@ cd $HOME
 install_dotvim
 command -v nvim &>/dev/null && install_dotnvim
 install_local_dotfiles
+install_ssh_keys
 set_shell_zsh
 
 # Root configs.

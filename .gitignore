@@ -8,8 +8,9 @@
 .*[._]local
 
 # Too sensitive to version.
-.ssh/
-.pki/
+/.ssh/*
+!/.ssh/config**
+/.pki/
 
 # Should be tracked separately.
 .vscode/
