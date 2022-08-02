@@ -72,6 +72,10 @@ install_local_dotfiles() {
       fi
     done
   }
+  if [[ -d $HOME/.config/yadm/local/.git ]]; then
+    log "Updating local dotfiles"
+    git -C $HOME/.config/yadm/local pull --rebase || true
+  fi
   log "Checking local dotfiles"
   _symlink_dotfiles "." ".config" ".config/goobuntu-backups" ".local/bin"
 }
