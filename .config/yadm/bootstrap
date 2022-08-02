@@ -1,57 +1,16 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-function log {
+log() {
   if [ $# -ne 1 ]; then
     echo "Invalid log() with $# arguments: $*"
-    return -1
+    return 1
   fi
-  echo "$(tput setaf 2)[$(date '+%Y-%m-%d %H:%M:%S %z')]$(tput sgr0) $1"
+  echo "$(tput setaf 2)[$(date '+%Y-%m-%d %H:%M:%S%z')]$(tput sgr0) $1"
 }
 
-function install_dotvim {
-  if [ -d "$HOME/.vim" ]; then
-    log "Updating .vim git repo"
-    git -C $HOME/.vim pull --rebase || true
-    log "Upgrading .vim plugins"
-    vim +PlugUpgrade +PlugUpdate +PlugClean +PlugInstall +qall
-  else
-    log "Installing .vim"
-    git clone git@github.com:alexcepoi/dotvim.git "$HOME/.vim"
-    curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-    vim +PlugInstall +qall
-  fi
-}
-
-function install_root_dotvim {
-  if sudo test -d ~root/.vim; then
-    log "Upgrading ~root/.vim git repo"
-    sudo git -C ~root/.vim pull --rebase || true
-  else
-    log "Installing ~root/.vim"
-    sudo git clone https://github.com/alexcepoi/dotvim.git ~root/.vim
-  fi
-}
-
-function install_dotnvim {
-  if [ -d "$HOME/.config/nvim" ]; then
-    log "Updating .config/nvim git repo"
-    git -C $HOME/.config/nvim pull --rebase || true
-    log "Upgrading .config/nvim plugins"
-    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-  else
-    log "Installing .config/nvim"
-    git clone git@github.com:alexcepoi/dotnvim.git "$HOME/.config/nvim"
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-  fi
-}
-
-function install_local_dotfiles {
-  function _contains {
+install_local_dotfiles() {
+  _contains() {
     local e match="$1"
     shift
     for e; do
@@ -59,7 +18,7 @@ function install_local_dotfiles {
     done
     return 1
   }
-  function _symlink_dotfiles {
+  _symlink_dotfiles() {
     for dir in $@; do
       if [[ $dir =~ \./ || $dir =~ ^[/~] ]]; then
         echo >&2 "Symlink directory path '$dir' not supported"
@@ -82,7 +41,7 @@ function install_local_dotfiles {
       if [[ -d $link_dir ]]; then
         find $link_dir -mindepth 1 -maxdepth 1 -type l | while read target; do
           if [[ ! -e $target && $(readlink $target) == *yadm/local/* ]]; then
-            echo "${target#./} $(tput setaf 3)[purged]$(tput sgr0)"
+            echo "$(tput setaf 3)[rm]$(tput sgr0) ${target#./}"
             rm $target
           fi
         done
@@ -102,38 +61,92 @@ function install_local_dotfiles {
           fi
 
           if [[ -L $link && $(readlink $link) == $target ]]; then
-            echo "$link -> $target $(tput setaf 2)[ok]$(tput sgr0)"
+            echo "$(tput setaf 2)[ok]$(tput sgr0) $link -> $target"
           elif [[ -e $link ]]; then
-            echo "$link -> $target $(tput setaf 1)[conflict]$(tput sgr0)"
+            echo "$(tput setaf 1)[!!]$(tput sgr0) $link -> $target"
           else
-            ln -snv $target $link
+            echo "$(tput setaf 4)[->]$(tput sgr0) $link -> $target"
+            ln -sn $target $link
           fi
         done
       fi
     done
   }
-  log "Installing local dotfiles"
+  log "Checking local dotfiles"
   _symlink_dotfiles "." ".config" ".config/goobuntu-backups" ".local/bin"
 }
 
-function install_ssh_keys {
-  log "Authorizing local ssh keys"
+check_yadm_install() {
+  local yadm_bin="$HOME/.local/bin/yadm"
+  if ! command -v yadm &>/dev/null; then
+    log "Installing local yadm"
+  elif [[ -f $yadm_bin ]]; then
+    log "Updating local yadm"
+  else
+    return 0
+  fi
+  curl -fsSLo $yadm_bin --create-dirs https://github.com/TheLocehiliosan/yadm/raw/master/yadm
+  chmod a+x $yadm_bin
+}
+
+install_dotvim() {
+  log "Checking .vim repo"
+  if [ -d "$HOME/.vim" ]; then
+    log "Updating .vim repo"
+    git -C $HOME/.vim pull --rebase || true
+
+    log "Updating .vim plugins"
+    vim +PlugUpgrade +PlugUpdate +PlugClean +PlugInstall +qall
+  else
+    log "Installing .vim repo"
+    git clone git@github.com:alexcepoi/dotvim.git "$HOME/.vim"
+    curl -fsSLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+    log "Installing .vim plugins"
+    vim +PlugInstall +qall
+  fi
+}
+
+install_root_dotvim() {
+  log "Checking ~root/.vim repo"
+  if sudo test -d ~root/.vim; then
+    log "Updating ~root/.vim repo"
+    sudo git -C ~root/.vim pull --rebase || true
+  else
+    log "Installing ~root/.vim repo"
+    sudo git clone https://github.com/alexcepoi/dotvim.git ~root/.vim
+  fi
+}
+
+install_dotnvim() {
+  log "Checking .config/nvim repo"
+  if [ -d "$HOME/.config/nvim" ]; then
+    log "Updating .config/nvim repo"
+    git -C $HOME/.config/nvim pull --rebase || true
+  else
+    log "Installing .config/nvim repo"
+    git clone git@github.com:alexcepoi/dotnvim.git "$HOME/.config/nvim"
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+  fi
+  log "Updating .config/nvim plugins"
+  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+}
+
+install_ssh_keys() {
+  log "Checking local ssh keys"
   local keys_fname=$HOME/.ssh/authorized_keys
   find $HOME/.ssh/*.pub -type f | while read pubkey_fname; do
     local pubkey=$(<$pubkey_fname)
     if [[ ! -f $keys_fname ]] || ! grep -q "$pubkey" $keys_fname; then
+      log "Authorizing key ${pubkey_fname##*/}"
       echo $pubkey >>$keys_fname
     fi
   done
 }
 
-function local_install_yadm {
-  log "Locally installing yadm"
-  local yadm_bin="$HOME/.local/bin/yadm"
-  curl -fLo $yadm_bin --create-dirs https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x $yadm_bin
-}
-
-function set_shell_zsh {
+set_shell_zsh() {
+  log "Checking SHELL"
   local zsh_bin="/bin/zsh"
   if [[ -f $zsh_bin && $SHELL != $zsh_bin ]]; then
     log "Changing SHELL to zsh"
@@ -141,11 +154,8 @@ function set_shell_zsh {
   fi
 }
 
-function setup_osx {
-  local_install_yadm
-}
-
-function setup_debian {
+setup_debian() {
+  log "Checking ~root/.bashrc"
   if ! sudo grep -q "^PS1=" ~root/.bashrc; then
     log "Fixing root PS1.. appending to ~root/.bashrc:"
     echo | sudo tee -a ~root/.bashrc
@@ -153,24 +163,26 @@ function setup_debian {
   fi
 }
 
-# User configs.
-cd $HOME
-install_dotvim
-command -v nvim &>/dev/null && install_dotnvim
-install_local_dotfiles
-install_ssh_keys
-set_shell_zsh
+main() {
+  # User configs.
+  install_local_dotfiles
+  check_yadm_install
+  install_dotvim
+  command -v nvim &>/dev/null && install_dotnvim
+  install_ssh_keys
+  set_shell_zsh
 
-# Root configs.
-install_root_dotvim
+  # Root configs.
+  install_root_dotvim
 
-# OS specific configs.
-if [[ $OSTYPE =~ ^darwin ]]; then
-  setup_osx
-elif [[ $OSTYPE =~ ^linux ]]; then
-  case $(grep ID /etc/os-release) in
-  *debian*)
-    setup_debian
-    ;;
-  esac
-fi
+  # OS specific configs.
+  if [[ $OSTYPE =~ ^linux ]]; then
+    case $(grep ID /etc/os-release) in
+    *debian*)
+      setup_debian
+      ;;
+    esac
+  fi
+}
+
+cd $HOME && main
