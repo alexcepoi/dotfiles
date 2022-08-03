@@ -19,6 +19,6 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # Commands
-path () {
+path() {
   echo $PATH | tr -s ":" "\n"
 }
