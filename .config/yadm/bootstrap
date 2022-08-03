@@ -99,6 +99,11 @@ install_dotvim() {
     log "Updating .vim repo"
     git -C $HOME/.vim pull --rebase || true
 
+    if [[ -d $HOME/.vim/localconf.d/.git ]]; then
+      log "Updating .vim/localconf.d repo"
+      git -C $HOME/.vim/localconf.d pull --rebase || true
+    fi
+
     log "Updating .vim plugins"
     vim +PlugUpgrade +PlugUpdate +PlugClean +PlugInstall +qall
   else
@@ -117,6 +122,11 @@ install_root_dotvim() {
   if sudo test -d ~root/.vim; then
     log "Updating ~root/.vim repo"
     sudo git -C ~root/.vim pull --rebase || true
+
+    if sudo test -d ~root/.vim/localconf.d/.git; then
+      log "Updating ~root/.vim/localconf.d repo"
+      sudo git -C ~root/.vim/localconf.d pull --rebase || true
+    fi
   else
     log "Installing ~root/.vim repo"
     sudo git clone https://github.com/alexcepoi/dotvim.git ~root/.vim
@@ -128,6 +138,11 @@ install_dotnvim() {
   if [ -d "$HOME/.config/nvim" ]; then
     log "Updating .config/nvim repo"
     git -C $HOME/.config/nvim pull --rebase || true
+
+    if [[ -d $HOME/.config/nvim/lua/local/.git ]]; then
+      log "Updating .config/nvim/lua/local repo"
+      git -C $HOME/.config/nvim/lua/local pull --rebase || true
+    fi
   else
     log "Installing .config/nvim repo"
     git clone git@github.com:alexcepoi/dotnvim.git "$HOME/.config/nvim"
