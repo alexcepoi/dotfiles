@@ -1,13 +1,8 @@
-window_opacity: 1.0
-font:
-  normal:
-    family: Dejavu Sans Mono
-
- # Colors (Tomorrow Night Bright)
+# Theme (Tomorrow Night Bright)
 colors:
   # Default colors
   primary:
-    background: '#1c1c1c'
+    background: '#111111'
     foreground: '#eaeaea'
 
   # Normal colors

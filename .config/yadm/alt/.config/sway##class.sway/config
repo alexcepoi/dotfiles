@@ -11,7 +11,7 @@ set $up k
 set $right l
 
 # Your preferred applications
-set $term alacritty
+set $term foot
 set $browser google-chrome-stable
 
 ### Output configuration
