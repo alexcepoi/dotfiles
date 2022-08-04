@@ -72,7 +72,15 @@ install_local_dotfiles() {
       fi
     done
   }
-  if [[ -d $HOME/.config/yadm/local/.git ]]; then
+  if [[ ! -d $HOME/.config/yadm/local ]]; then
+    if command -v gcert &>/dev/null && [[ $OSTYPE =~ ^linux ]]; then
+      log "Installing .config/yadm/local repo"
+      git clone sso://user/alexcepoi/gdotfiles "$HOME/.config/yadm/local"
+    elif command -v gcert &>/dev/null && [[ $OSTYPE =~ ^darwin ]]; then
+      log "Installing .config/yadm/local repo"
+      git clone sso://user/alexcepoi/gmacdotfiles "$HOME/.config/yadm/local"
+    fi
+  elif [[ -d $HOME/.config/yadm/local/.git ]]; then
     log "Updating local dotfiles"
     git -C $HOME/.config/yadm/local pull --rebase || true
   fi
@@ -99,7 +107,12 @@ install_dotvim() {
     log "Updating .vim repo"
     git -C $HOME/.vim pull --rebase || true
 
-    if [[ -d $HOME/.vim/localconf.d/.git ]]; then
+    if [[ ! -d $HOME/.vim/localconf.d ]]; then
+      if command -v gcert &>/dev/null && [[ $OSTYPE =~ ^linux ]]; then
+        log "Installing .vim/localconf.d repo"
+        git clone sso://user/alexcepoi/gdotvim "$HOME/.vim/localconf.d"
+      fi
+    elif [[ -d $HOME/.vim/localconf.d/.git ]]; then
       log "Updating .vim/localconf.d repo"
       git -C $HOME/.vim/localconf.d pull --rebase || true
     fi
@@ -139,7 +152,12 @@ install_dotnvim() {
     log "Updating .config/nvim repo"
     git -C $HOME/.config/nvim pull --rebase || true
 
-    if [[ -d $HOME/.config/nvim/lua/local/.git ]]; then
+    if [[ ! -d $HOME/.config/nvim/lua/local ]]; then
+      if command -v gcert &>/dev/null && [[ $OSTYPE =~ ^linux ]]; then
+        log "Installing .config/nvim/lua/local repo"
+        git clone sso://user/alexcepoi/gdotnvim "$HOME/.config/nvim/lua/local"
+      fi
+    elif [[ -d $HOME/.config/nvim/lua/local/.git ]]; then
       log "Updating .config/nvim/lua/local repo"
       git -C $HOME/.config/nvim/lua/local pull --rebase || true
     fi
