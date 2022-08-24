@@ -1,0 +1,43 @@
+# i3status configuration file.
+
+general {
+  interval = 1
+  markup = 'pango'
+  colors = true
+  color_good = '#a3be8c'
+  color_degraded = '#ebcb8b'
+  color_bad = '#bf616a'
+}
+
+order += 'volume master'
+order += 'cpu_usage'
+order += 'load'
+order += 'tztime local'
+order += 'tztime google'
+
+volume master {
+  format = '<span color="#bf616a">♪ %volume</span>'
+  format_muted='■ %volume'
+}
+
+load {
+  min_width = 120
+  align = right
+}
+
+cpu_usage {
+  format='%usage'
+  min_width = 30
+  align = right
+  degraded_threshold = 80
+  max_threshold = 90
+}
+
+tztime local {
+  format='<span color="#2e9ef4">%a %-d %b %H:%M</span>'
+}
+
+tztime google {
+  timezone='America/Los_Angeles'
+  format='%-d %b %H:%M %Z'
+}

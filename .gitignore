@@ -2,7 +2,8 @@
 /[^.]**
 
 # XDG local directories don't generally contain config files.
-.local/
+/.local/
+!/.local/bin
 
 # Custom files and folders used to allow local configuration.
 .*[._]local
