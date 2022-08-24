@@ -168,6 +168,7 @@ install_dotnvim() {
   fi
   log "Updating .config/nvim plugins"
   nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  nvim --headless -c "TSInstallSync all" -c "TSUpdateSync all" -c "echo ''" -c q
 }
 
 install_ssh_keys() {
