@@ -19,10 +19,10 @@ install_local_dotfiles() {
     return 1
   }
   _symlink_dotfiles() {
-    for dir in $@; do
+    for dir in "$@"; do
       if [[ $dir =~ \./ || $dir =~ ^[/~] ]]; then
         echo >&2 "Symlink directory path '$dir' not supported"
-        exit -1
+        exit 1
       fi
       if [[ $dir == "." ]]; then
         local target_dir=".config/yadm/local"
@@ -39,10 +39,10 @@ install_local_dotfiles() {
 
       # Delete broken symlinks.
       if [[ -d $link_dir ]]; then
-        find $link_dir -mindepth 1 -maxdepth 1 -type l | while read target; do
-          if [[ ! -e $target && $(readlink $target) == *yadm/local/* ]]; then
+        find $link_dir -mindepth 1 -maxdepth 1 -type l | while read -r target; do
+          if [[ ! -e $target && $(readlink "$target") == *yadm/local/* ]]; then
             echo "$(tput setaf 3)[rm]$(tput sgr0) ${target#./}"
-            rm $target
+            rm "$target"
           fi
         done
       fi
@@ -50,23 +50,23 @@ install_local_dotfiles() {
       # Create local symlinks.
       if [[ -d .config/yadm/local/$dir ]]; then
         mkdir -p $link_dir
-        (cd $link_dir && find $target_dir -mindepth 1 -maxdepth 1 ! -name ".git" ! -name ".gitignore") | while read target; do
+        (cd $link_dir && find $target_dir -mindepth 1 -maxdepth 1 ! -name ".git" ! -name ".gitignore") | while read -r target; do
           local target_basename=${target##*/}
           local link=$link_dir/${target_basename}
           local link=${link#./}
 
           # Don't symlink directories in which we need to selectively symlink.
-          if _contains $link $@; then
+          if _contains "$link" "$@"; then
             continue
           fi
 
-          if [[ -L $link && $(readlink $link) == $target ]]; then
+          if [[ -L $link && $(readlink "$link") == "$target" ]]; then
             echo "$(tput setaf 2)[ok]$(tput sgr0) $link -> $target"
           elif [[ -e $link ]]; then
             echo "$(tput setaf 1)[!!]$(tput sgr0) $link -> $target"
           else
             echo "$(tput setaf 4)[->]$(tput sgr0) $link -> $target"
-            ln -sn $target $link
+            ln -sn "$target" "$link"
           fi
         done
       fi
@@ -82,7 +82,7 @@ install_local_dotfiles() {
     fi
   elif [[ -d $HOME/.config/yadm/local/.git ]]; then
     log "Updating local dotfiles"
-    git -C $HOME/.config/yadm/local pull --rebase || true
+    git -C "$HOME/.config/yadm/local" pull --rebase || true
   fi
   log "Checking local dotfiles"
   _symlink_dotfiles "." ".config" ".config/goobuntu-backups" ".local/bin"
@@ -97,15 +97,15 @@ check_yadm_install() {
   else
     return 0
   fi
-  curl -fsSLo $yadm_bin --create-dirs https://github.com/TheLocehiliosan/yadm/raw/master/yadm
-  chmod a+x $yadm_bin
+  curl -fsSLo "$yadm_bin" --create-dirs https://github.com/TheLocehiliosan/yadm/raw/master/yadm
+  chmod a+x "$yadm_bin"
 }
 
 install_dotvim() {
   log "Checking .vim repo"
   if [ -d "$HOME/.vim" ]; then
     log "Updating .vim repo"
-    git -C $HOME/.vim pull --rebase || true
+    git -C "$HOME/.vim" pull --rebase || true
 
     log "Updating .vim plugins"
     vim +PlugUpgrade +PlugUpdate +PlugClean +PlugInstall +qall
@@ -126,7 +126,7 @@ install_dotvim() {
     fi
   elif [[ -d $HOME/.vim/localconf.d/.git ]]; then
     log "Updating .vim/localconf.d repo"
-    git -C $HOME/.vim/localconf.d pull --rebase || true
+    git -C "$HOME/.vim/localconf.d" pull --rebase || true
   fi
 }
 
@@ -150,7 +150,7 @@ install_dotnvim() {
   log "Checking .config/nvim repo"
   if [ -d "$HOME/.config/nvim" ]; then
     log "Updating .config/nvim repo"
-    git -C $HOME/.config/nvim pull --rebase || true
+    git -C "$HOME/.config/nvim" pull --rebase || true
 
     if [[ ! -d $HOME/.config/nvim/lua/local ]]; then
       if command -v gcert &>/dev/null && [[ $OSTYPE =~ ^linux ]]; then
@@ -159,7 +159,7 @@ install_dotnvim() {
       fi
     elif [[ -d $HOME/.config/nvim/lua/local/.git ]]; then
       log "Updating .config/nvim/lua/local repo"
-      git -C $HOME/.config/nvim/lua/local pull --rebase || true
+      git -C "$HOME/.config/nvim/lua/local" pull --rebase || true
     fi
   else
     log "Installing .config/nvim repo"
@@ -174,11 +174,12 @@ install_dotnvim() {
 install_ssh_keys() {
   log "Checking local ssh keys"
   local keys_fname=$HOME/.ssh/authorized_keys
-  find $HOME/.ssh/*.pub -type f | while read pubkey_fname; do
-    local pubkey=$(<$pubkey_fname)
-    if [[ ! -f $keys_fname ]] || ! grep -q "$pubkey" $keys_fname; then
+  find "$HOME/.ssh"/*.pub -type f | while read -r pubkey_fname; do
+    local pubkey
+    pubkey=$(<"$pubkey_fname")
+    if [[ ! -f $keys_fname ]] || ! grep -q "$pubkey" "$keys_fname"; then
       log "Authorizing key ${pubkey_fname##*/}"
-      echo $pubkey >>$keys_fname
+      echo "$pubkey" >>"$keys_fname"
     fi
   done
 }
@@ -186,7 +187,7 @@ install_ssh_keys() {
 set_shell_zsh() {
   log "Checking SHELL"
   local zsh_bin="/bin/zsh"
-  if [[ -f $zsh_bin && $SHELL != $zsh_bin ]]; then
+  if [[ -f $zsh_bin && $SHELL != "$zsh_bin" ]]; then
     log "Changing SHELL to zsh"
     chsh -s $zsh_bin
   fi
@@ -197,6 +198,7 @@ setup_debian() {
   if ! sudo grep -q "^PS1=" ~root/.bashrc; then
     log "Fixing root PS1.. appending to ~root/.bashrc:"
     echo | sudo tee -a ~root/.bashrc
+    # shellcheck disable=SC2016
     echo PS1=\''${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '\' | sudo tee -a ~root/.bashrc
   fi
 }
@@ -223,4 +225,4 @@ main() {
   fi
 }
 
-cd $HOME && main
+cd "$HOME" && main
