@@ -57,7 +57,7 @@ bindsym Shift+Print exec grim -g "$(slurp)"
 bindsym $mod+q kill
 
 # Lock session
-bindsym Ctrl+Alt+l exec 'loginctl lock-session'
+bindsym Ctrl+Alt+l exec 'playerctl -a pause; loginctl lock-session'
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
