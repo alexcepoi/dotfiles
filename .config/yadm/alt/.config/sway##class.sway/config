@@ -13,25 +13,23 @@ set $browser google-chrome-stable
 ### Look & Feel
 
 # Output configuration
-output * bg ~/.config/sway/wallpaper.png tile
+output * bg #111111 solid_color
 
 # Idle configuration
 exec swayidle -w \
-       lock "swaylock -efF -t -i ~/.config/sway/wallpaper.png" \
+       lock "swaylock -efF -t -c 111111" \
        timeout  600 'loginctl lock-session' \
        timeout 1200 'systemctl suspend'
 
-# Input configuration
-input "type:pointer" {
-   scroll_factor 2.0
-}
-
 # Application configuration
-exec mako
+exec_always pkill mako; exec mako
+exec_always pkill kanshi; exec kanshi
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 for_window [app_id="^.*"] inhibit_idle fullscreen
 for_window [class=Spotify] move to scratchpad, scratchpad show
+
+bindsym $mod+apostrophe mark --toggle sidebrowser
 
 # Status Bar
 bar {
@@ -130,7 +128,23 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 
-### Workspaces:
+### Resizing containers
+
+mode "resize" {
+    bindsym h resize shrink width 10px
+    bindsym j resize grow height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+### Workspaces
 
 set $w1 "1: adm "
 set $w2 "2: web "
@@ -142,6 +156,9 @@ set $w7 "7"
 set $w8 "8"
 set $w9 "9"
 set $w0 "10"
+
+# Include host-specific configuration
+include "hostconfig.d/`hostname -s`_*.conf"
 
 bindsym $mod+1 workspace number $w1
 bindsym $mod+2 workspace number $w2
@@ -164,24 +181,3 @@ bindsym $mod+Shift+7 move container to workspace number $w7, workspace number $w
 bindsym $mod+Shift+8 move container to workspace number $w8, workspace number $w8
 bindsym $mod+Shift+9 move container to workspace number $w9, workspace number $w9
 bindsym $mod+Shift+0 move container to workspace number $w0, workspace number $w0
-
-
-### Resizing containers:
-
-mode "resize" {
-    bindsym h resize shrink width 10px
-    bindsym j resize grow height 10px
-    bindsym k resize shrink height 10px
-    bindsym l resize grow width 10px
-
-    # Return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym $mod+r mode "default"
-}
-bindsym $mod+r mode "resize"
-
-
-### Additional configuration
-
-include /etc/sway/config.d/*

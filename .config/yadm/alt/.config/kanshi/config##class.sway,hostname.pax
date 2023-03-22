@@ -1,0 +1,5 @@
+profile default {
+  output DP-1 position 2560,922
+  output DP-2 position 0,922
+  output DP-3 position 5120,0 transform 90
+}

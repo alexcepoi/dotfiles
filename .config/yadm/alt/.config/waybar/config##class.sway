@@ -4,7 +4,7 @@
     "height": 30,
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["tray", "pulseaudio", "network", "cpu", "memory", "temperature#cpu", "temperature#gpu", "clock"],
+    "modules-right": ["tray", "pulseaudio", "network", "cpu", "memory", "clock"],
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -19,20 +19,6 @@
     "memory": {
         "format": "{}% ",
         "interval": 1,
-    },
-    "temperature#cpu": {
-        "hwmon-path": "/sys/class/hwmon/hwmon1/temp2_input",
-        "critical-threshold": 80,
-        "interval": 1,
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""],
-    },
-    "temperature#gpu": {
-        "hwmon-path": "/sys/class/hwmon/hwmon4/temp2_input",
-        "critical-threshold": 99,
-        "interval": 1,
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""],
     },
     "network": {
         "format-wifi": "{essid} ({frequency}GHz {signaldBm}dbm) ",

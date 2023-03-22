@@ -1,0 +1,58 @@
+{
+    "layer": "bottom",
+    "position": "bottom",
+    "height": 30,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["sway/window"],
+    "modules-right": ["tray", "pulseaudio", "cpu", "memory", "temperature#cpu", "temperature#gpu", "clock"],
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "clock": {
+        "format": "{:%d %b %H:%M}",
+        "interval": 1,
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "interval": 1,
+    },
+    "memory": {
+        "format": "{}% ",
+        "interval": 1,
+    },
+    "temperature#cpu": {
+        "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+        "input-filename": "temp1_input",
+        "critical-threshold": 80,
+        "interval": 1,
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["", "", ""],
+    },
+    "temperature#gpu": {
+        "hwmon-path-abs": "/sys/devices/pci0000:60/0000:60:03.1/0000:61:00.0/hwmon",
+        "input-filename": "temp1_input",
+        "critical-threshold": 99,
+        "interval": 1,
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["", "", ""],
+    },
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""],
+        },
+        "on-click": "pavucontrol",
+    },
+}

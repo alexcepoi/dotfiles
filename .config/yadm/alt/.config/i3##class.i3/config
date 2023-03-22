@@ -140,20 +140,34 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 
+### Resizing containers
+
+mode "resize" {
+    bindsym h resize shrink width 10px
+    bindsym j resize grow height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow width 10px
+
+    # Return to default mode
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
 ### Workspaces
 
-set $w1 "1: adm"
-set $w2 "2: oncall"
-set $w3 "3: work"
-set $w4 "4: code"
-set $w5 "5: web"
-set $w6 "6: play"
+set $w1 "1: adm "
+set $w2 "2: web "
+set $w3 "3: work "
+set $w4 "4: play "
+set $w5 "5"
+set $w6 "6"
 set $w7 "7"
-set $w8 "8: chat"
-set $w9 "9: work"
+set $w8 "8"
+set $w9 "9"
 set $w0 "10"
-
-assign [class="^Gvim$"] $w4
 
 bindsym $mod+1 workspace number $w1
 bindsym $mod+2 workspace number $w2
@@ -177,28 +191,5 @@ bindsym $mod+Shift+8 move container to workspace number $w8; workspace number $w
 bindsym $mod+Shift+9 move container to workspace number $w9; workspace number $w9
 bindsym $mod+Shift+0 move container to workspace number $w0; workspace number $w0
 
-bindsym $mod+grave workspace back_and_forth
-bindsym $mod+Tab workspace next_on_output
-bindsym $mod+Shift+Tab workspace prev_on_output
-
-
-### Resizing containers
-
-mode "resize" {
-    bindsym h resize shrink width 10px
-    bindsym j resize grow height 10px
-    bindsym k resize shrink height 10px
-    bindsym l resize grow width 10px
-
-    # back to normal
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
-    bindsym $mod+r mode "default"
-}
-bindsym $mod+r mode "resize"
-
-
-### Additional configuration
-
-# Include host-specific configuration.
-include ~/.config/i3/hostconfig.d/`hostname -s`_*.conf
+# Include host-specific configuration
+include "hostconfig.d/`hostname -s`_*.conf"
